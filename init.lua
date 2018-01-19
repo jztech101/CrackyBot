@@ -70,7 +70,7 @@ end
 if config.logchannel then
 	irc:join(config.logchannel)
 end
-irc:sendChat(config.logchannel, "Connection Successful"*#config.autojoin)
+irc:sendChat(config.logchannel, "moooooooooooooo")
 
 local function consoleThink()
 	if not connected then return end

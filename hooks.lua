@@ -373,13 +373,12 @@ local function realchat(usr,channel,msg)
 
 	-- relay new Crackbot commits into #powder-bots
 	-- maybe could add a relay module sometime
-	if user.nick=="Crackbot" and channel=='##jacob1' and usr.nick == "CrackbotRepo" and usr.host:find("192%.30%.252") then
-		ircSendChatQ("#powder-bots",msg)
-	end
 end
 local function chat(usr,channel,msg)
 	print("["..tostring(channel).."] <".. tostring(usr.nick) .. ">: "..tostring(msg))
-	if channel==user.nick then channel=usr.nick end --if query, respond back to usr
+	if channel==user.nick then channel=usr.nick 
+		ircSendChatQ(config.logchannel, "["..usr.nick.."!"..usr.username.."@"..usr.host.."] "..msg)
+		end --if query, respond back to usr
 	if not usr.nick then return end
 	local s,r = pcall(realchat,usr,channel,msg)
 	if not s and r then
@@ -446,6 +445,7 @@ irc:hook("OnPart","partCheck",partCheck)
 
 local function onNotice(usr,channel,msg)
 	print("[NOTICE "..tostring(channel).."] <".. tostring(usr.nick) .. ">: "..tostring(msg))
+        ircSendChatQ(config.logchannel, "[NOTICE "..tostring(channel).."] <".. tostring(usr.nick) .. ">: "..tostring(msg))
 end
 pcall(irc.unhook,irc,"OnNotice","notice1")
 irc:hook("OnNotice","notice1",onNotice)
@@ -459,11 +459,11 @@ local function onCTCP(usr,channel,type,msg)
 		cmd:close()
 		response = "Crackbot, the best IRC bot. Running on "..version
 	elseif type == "TIME" then
-		response = os.date()
+		response = "mooooooooo"
 	elseif type == "PING" then
-		response = msg
+		response = "mooooooOooo"
 	elseif type == "SOURCE" then
-		response = "https://github.com/cracker64/Crackbot"
+		response = "https://github.com/jztech101/Crackbot"
 	end
 	if response then
 		ircSendNoticeQ(usr.nick,"\001"..type.." "..response.."\001")
@@ -472,6 +472,7 @@ local function onCTCP(usr,channel,type,msg)
 		print("["..tostring(channel).."] * "..tostring(usr.nick).." "..tostring(msg))
 	else
 		print("Recieved a CTCP "..tostring(type)..(msg~="" and " " or "")..tostring(msg).. " from "..tostring(usr.nick))
+
 	end
 end
 pcall(irc.unhook,irc,"OnCTCP","ctcp1")
