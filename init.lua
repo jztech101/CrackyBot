@@ -67,13 +67,10 @@ for k,v in pairs(config.autojoin) do
 	irc:join(v)
 end
 --join extra config channels if they for some reason aren't in the autojoin
-if config.primarychannel then
-	irc:join(config.primarychannel)
-end
 if config.logchannel then
 	irc:join(config.logchannel)
 end
-irc:sendChat(config.primarychannel, "moo"*#config.autojoin)
+irc:sendChat(config.logchannel, "Connection Successful"*#config.autojoin)
 
 local function consoleThink()
 	if not connected then return end

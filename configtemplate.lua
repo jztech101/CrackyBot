@@ -104,8 +104,7 @@ local config = {
 	autojoin = {
 		--"##mychannel",
 	},
-	--only used in a small handful of places
-	primarychannel = "##mychannel",
+	
 	--logs all commands done in pm, and added aliases
 	logchannel = "##logchannel",
 

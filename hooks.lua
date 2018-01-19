@@ -37,9 +37,6 @@ function ircSendChatQ(chan,text,nohook)
 	if #text == 0 then return end
 	local host = ""
 	if not chan then chan=config.logchannel end
-	if irc.channels[config.primarychannel] and irc.channels[config.primarychannel].users[irc.nick] then
-		host = irc.channels[config.primarychannel].users[irc.nick].fullhost or ""
-	end
 	local byteLimit = 498 - #chan - #host
 	if byteLimit - #text < 0 and byteLimit - #text > -1600 then
 		table.insert(buffer,{["channel"]=chan,["msg"]=text:sub(1,byteLimit),["raw"]=false,["notice"]=false})
