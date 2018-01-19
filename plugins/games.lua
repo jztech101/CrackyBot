@@ -51,6 +51,7 @@ storeInventory={
 ["god"]=	{name="god",	cost=999999999999999999999,info="Even God sold himself to obey your will.",amount=1,instock=true},
 ["bitcoin"]={name="bitcoin",	cost=10000, info="A bitcoin", amount=1, instock=true},
 ["dogecoin"]={name="dogecoin",    cost=100000, info="A dogecoin", amount=1, instock=true},
+["whitehole"]={name="whitehole", cost=50000000000, info="A whitehole", amount=1, instock=true},
 }
 local storeInventorySorted = {}
 for k,v in pairs(storeInventory) do
