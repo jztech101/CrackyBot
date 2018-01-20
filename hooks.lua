@@ -444,8 +444,8 @@ irc:hook("OnPart","partCheck",partCheck)
 
 
 local function onNotice(usr,channel,msg)
-	print("[NOTICE "..tostring(channel).."] <".. tostring(usr.nick) .. ">: "..tostring(msg))
-        ircSendChatQ(config.logchannel, "[NOTICE "..tostring(channel).."] <".. tostring(usr.nick) .. ">: "..tostring(msg))
+	print("[NOTICE "..tostring(channel).."] <".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ">: "..tostring(msg))
+        ircSendChatQ(config.logchannel, "[NOTICE "..tostring(channel).."] <".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ">: "..tostring(msg))
 end
 pcall(irc.unhook,irc,"OnNotice","notice1")
 irc:hook("OnNotice","notice1",onNotice)
