@@ -138,12 +138,12 @@ add_cmd(source, "source", 0, "prints source of bot", true)
 local function dothis(usr,chan,msg) --fix DO and ME with filters
 	if msg then return "\001ACTION does "..msg.."\001",true end
 end
-add_cmd(dothis,"do",0,"Performs an action, '/do <text>'",true)
+add_cmd(dothis,"do",101,"Performs an action, '/do <text>'",true)
 --ME
 local function methis(usr,chan,msg)
 	if msg then return "\001ACTION "..msg.."\001",true end
 end
-add_cmd(methis,"me",0,"Performs an action, '/me <text>'",true)
+add_cmd(methis,"me",101,"Performs an action, '/me <text>'",true)
 
 --SNEAAK
 local function sneaky(usr,chan,msg)
@@ -190,7 +190,7 @@ add_cmd(reload,"load",100,"Loads file(s), '/load [<file1>] [<files...>]', Only a
 local function echo(usr,chan,msg)
 	return msg,true
 end
-add_cmd(echo,"echo",0,"Replies same text, '/echo <text>'",true,{"say"})
+add_cmd(echo,"echo",101,"Replies same text, '/echo <text>'",true,{"say"})
 
 --LIST
 local function list(usr,chan,msg,args)
