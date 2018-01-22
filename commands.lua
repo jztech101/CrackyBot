@@ -159,6 +159,15 @@ local function sneaky3(usr,chan,msg)
 	return "MooOoOoooOooo"
 end
 add_cmd(sneaky3,"moo",0,nil,false)
+local function act2(usr,chan,msg)
+	if msg then ircSendChatQ(chan, "\001ACTION "..msg.."\001", true) end
+end
+add_cmd(act2, "act2", 101, false, false)
+local function say2(usr,chan,msg)
+        if msg then ircSendChatQ(chan,msg, true) end
+end
+add_cmd(say2, "say2", 101, false, false)
+
 
 --RELOAD files
 local function reload(usr,chan,msg,args)
