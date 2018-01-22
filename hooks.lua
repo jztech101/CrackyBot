@@ -360,9 +360,6 @@ local function realchat(usr,channel,msg)
 			ircSendChatQ(channel,resp)
 		end
 		--log to channel, to notice things faster
-		if config.logchannel and channel:sub(1,1):match("%a") then
-			ircSendChatQ(config.logchannel, usr.nick.."!"..usr.username.."@"..usr.host.." used "..config.prefix:gsub("%%","")..cmd)
-		end
 	else
 		if err then ircSendNoticeQ(usr.nick,err) end
 		--Last said
@@ -374,9 +371,11 @@ local function realchat(usr,channel,msg)
 end
 local function chat(usr,channel,msg)
 	print("["..tostring(channel).."] <".. tostring(usr.nick) .. ">: "..tostring(msg))
-	if channel==user.nick then channel=usr.nick 
-		ircSendChatQ(config.logchannel, "["..usr.nick.."!"..usr.username.."@"..usr.host.."] "..msg)
-		end --if query, respond back to usr
+	if channel==user.nick then channel=usr.nick
+		if config.logchannel then
+			ircSendChatQ(config.logchannel, "[PM] "..usr.nick.."!"..usr.username.."@"..usr.host..": "..msg)
+		end 
+	end --if query, respond back to usr
 	if not usr.nick then return end
 	local s,r = pcall(realchat,usr,channel,msg)
 	if not s and r then
@@ -443,7 +442,13 @@ irc:hook("OnPart","partCheck",partCheck)
 
 local function onNotice(usr,channel,msg)
 	print("[NOTICE "..tostring(channel).."] <".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ">: "..tostring(msg))
-        ircSendChatQ(config.logchannel, "[NOTICE "..tostring(channel).."] <".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ">: "..tostring(msg))
+	if config.logchannel then
+		if string.sub(channel,1, 1) == "#" then
+        		ircSendChatQ(config.logchannel, "[Notice] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(channel)..") "..tostring(msg))
+		else
+        		ircSendChatQ(config.logchannel, "[Notice] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": "..tostring(msg))
+		end
+	end
 end
 pcall(irc.unhook,irc,"OnNotice","notice1")
 irc:hook("OnNotice","notice1",onNotice)
