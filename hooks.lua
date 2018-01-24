@@ -443,7 +443,7 @@ irc:hook("OnPart","partCheck",partCheck)
 local function onNotice(usr,channel,msg)
 	print("[NOTICE "..tostring(channel).."] <".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ">: "..tostring(msg))
 	if config.logchannel then
-		if string.sub(channel,1, 1) == "#" then
+		if string.sub(channel,1, 1):match("%W") then
         		ircSendChatQ(config.logchannel, "[Notice] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(channel)..") "..tostring(msg))
 		else
         		ircSendChatQ(config.logchannel, "[Notice] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": "..tostring(msg))
