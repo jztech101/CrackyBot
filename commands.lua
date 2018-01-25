@@ -134,17 +134,6 @@ local function source(usr, chan, msg)
 	return "https://github.com/jztech101/Crackbot"
 end
 add_cmd(source, "source", 0, "prints source of bot", true)
---DO
-local function dothis(usr,chan,msg) --fix DO and ME with filters
-	if msg then return "\001ACTION does "..msg.."\001",true end
-end
-add_cmd(dothis,"do",0,"Performs an action, '/do <text>'",true)
---ME
-local function methis(usr,chan,msg)
-	if msg then return "\001ACTION "..msg.."\001",true end
-end
-add_cmd(methis,"me",0,"Performs an action, '/me <text>'",true)
-
 --SNEAAK
 local function sneaky(usr,chan,msg)
 	return "You found me!"
@@ -159,7 +148,7 @@ local function sneaky3(usr,chan,msg)
 	return "MooOoOoooOooo"
 end
 add_cmd(sneaky3,"moo",0,nil,false)
-local function act2(usr,chan,msg)
+local function act(usr,chan,msg)
 	if msg then 
 		msg2 = msg
 		if string.sub(msg,1, 1) == "#" then
@@ -177,14 +166,14 @@ local function act2(usr,chan,msg)
 		ircSendChatQ(chan, "\001ACTION "..msg2.."\001", true) end
 
 end
-add_cmd(act2, "act2", 101, false, false)
-local function say2(usr,chan,msg)
+add_cmd(act, "act", 101, false, false)
+local function say(usr,chan,msg)
         if msg then 
                 msg2 = msg
-                if string.sub(msg,1, 1) == "#" then
+                if string.gmatch(msg,"%S+")[0]:match("%W") then
                         msg2 = nil
 			for word in string.gmatch(msg,"%S+") do
-                                if string.sub(word,1,1)== "#" then
+                                if word:match("%W") then
                                         chan = word
                                 else
                                         if msg2 == nil then msg2 = word else msg2 = msg2.." ".. word end
@@ -194,7 +183,7 @@ local function say2(usr,chan,msg)
 
 	ircSendChatQ(chan,msg2, true) end
 end
-add_cmd(say2, "say2", 101, false, false)
+add_cmd(say, "say", 101, false, false)
 
 
 --RELOAD files
@@ -222,12 +211,6 @@ local function reload(usr,chan,msg,args)
 	return rmsg
 end
 add_cmd(reload,"load",100,"Loads file(s), '/load [<file1>] [<files...>]', Only admin can specify file names.",true,{"reload"})
-
---ECHO
-local function echo(usr,chan,msg)
-	return msg,true
-end
-add_cmd(echo,"echo",0,"Replies same text, '/echo <text>'",true,{"say"})
 
 --LIST
 local function list(usr,chan,msg,args)
