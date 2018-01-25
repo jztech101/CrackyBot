@@ -170,10 +170,12 @@ add_cmd(act, "act", 101, false, false)
 local function say(usr,chan,msg)
         if msg then 
                 msg2 = msg
-                if string.gmatch(msg,"%S+")[0]:match("%W") then
+                if string.sub(msg, 1, 1) == "#" or 
+(string.sub(msg,1 ,1):match("%W") and string.sub(msg,2,2) == "#") then
                         msg2 = nil
-			for word in string.gmatch(msg,"%S+") do
-                                if word:match("%W") then
+			for word in string.gmatch(msg, "%S+") do
+                                if string.sub(word, 1, 1) == "#" or 
+(string.sub(word,1 ,1):match("%W") and string.sub(word,2,2) == "#") then
                                         chan = word
                                 else
                                         if msg2 == nil then msg2 = word else msg2 = msg2.." ".. word end
