@@ -156,6 +156,11 @@ local function sneaky3(usr,chan,msg)
 	return "MooOoOoooOooo"
 end
 add_cmd(sneaky3, "moo",0,nil, false)
+local function potato(usr, chan, msg) 
+ircSendChatQ(chan, "\001ACTION is a potato", false)
+end
+add_cmd(potato, "potato", 0, nil, false)
+
 local function cookie(usr,chan,msg)
 nick = usr.nick
 if not (msg == "" or msg == nil) then nick = msg end
