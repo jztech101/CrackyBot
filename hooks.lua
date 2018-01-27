@@ -452,31 +452,3 @@ local function onNotice(usr,channel,msg)
 end
 pcall(irc.unhook,irc,"OnNotice","notice1")
 irc:hook("OnNotice","notice1",onNotice)
-
-local function onCTCP(usr,channel,type,msg)
-	if channel==user.nick then channel=usr.nick end --if query, respond back to usr
-	local response = nil
-	if type == "VERSION" then
-		local cmd = io.popen(WINDOWS and "ver" or "uname -a")
-		local version = cmd:read("*a")
-		cmd:close()
-		response = "Crackbot, the best IRC bot. Running on "..version
-	elseif type == "TIME" then
-		response = "mooooooooo"
-	elseif type == "PING" then
-		response = "mooooooOooo"
-	elseif type == "SOURCE" then
-		response = "https://github.com/jztech101/Crackbot"
-	end
-	if response then
-		ircSendNoticeQ(usr.nick,"\001"..type.." "..response.."\001")
-	end
-	if type == "ACTION" then
-		print("["..tostring(channel).."] * "..tostring(usr.nick).." "..tostring(msg))
-	else
-		print("Recieved a CTCP "..tostring(type)..(msg~="" and " " or "")..tostring(msg).. " from "..tostring(usr.nick))
-
-	end
-end
-pcall(irc.unhook,irc,"OnCTCP","ctcp1")
-irc:hook("OnCTCP","ctcp1",onCTCP)
