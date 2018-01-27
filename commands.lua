@@ -155,7 +155,13 @@ add_cmd(sneaky2,"./moo",0,nil,false)
 local function sneaky3(usr,chan,msg)
 	return "MooOoOoooOooo"
 end
-add_cmd(sneaky3,"moo",0,nil,false)
+add_cmd(sneaky3, "moo",0,nil, false)
+local function cookie(usr,chan,msg)
+nick = usr.nick
+if not (msg == "" or msg == nil) then nick = msg end
+ircSendChatQ(chan, "\001ACTION gives " + nick +" a cookie\001", false) 
+end
+add_cmd(cookie,"cookie",0,false,false)
 local function act(usr,chan,msg)
 	if msg then 
 		msg2 = msg
