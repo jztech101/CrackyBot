@@ -381,25 +381,9 @@ local function chat(usr,channel,msg)
 	if not s and r then
 		onSendHooks = {}
 		ircSendChatQ(channel,r)
-	end
-end
+	end 
+end 
 
---console is read as messages from me
-local conChannel = config.primarychannel
-function consoleChat(msg)
-	local _,_,chan = msg:find("^"..config.prefix.."chan (.+)")
-	local isPrefix = msg:find("^"..config.prefix)
-	if not isPrefix then
-		msg = config.prefix:gsub("%%","").."echo "..msg
-	end
-	if chan then
-		print("Channel set to "..chan)
-		conChannel = chan
-		return
-	end
-	chat({nick=config.owner.nick,host=config.owner.host,fullhost=config.owner.fullhost},conChannel,msg)
-end
---remove old hook for reloading
 pcall(irc.unhook,irc,"OnChat","chat1")
 irc:hook("OnChat","chat1",chat)
 
@@ -448,7 +432,16 @@ local function onNotice(usr,channel,msg)
 		else
         		ircSendChatQ(config.logchannel, "[Notice] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": "..tostring(msg))
 		end
-	end
+	end 
+end 
+pcall(irc.unhook,irc,"OnNotice","notice1") 
+irc:hook("OnNotice","notice1",onNotice) 
+local function onCTCP(usr, channel,type, msg) 
+if channel==user.nick then channel=usr.nick
+		if config.logchannel then
+			ircSendChatQ(config.logchannel, "[PM] "..usr.nick.."!"..usr.username.."@"..usr.host..": "..type.." "..msg)
+		end
+	end 
 end
-pcall(irc.unhook,irc,"OnNotice","notice1")
-irc:hook("OnNotice","notice1",onNotice)
+pcall(irc.unhook, irc, "OnCTCP", "ctcp1")
+irc:hook("OnCTCP","ctcp1",onCTCP)
