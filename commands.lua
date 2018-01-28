@@ -134,6 +134,14 @@ local function pong(usr,chan,msg)
 	return "ping"
 end
 add_cmd(pong,"pong",0,"ping",true)
+local function shrug(usr, chan, msg)
+        return "┻━┻ ︵ ¯\_(ツ)_/¯ ︵ ┻━┻"
+end
+add_cmd(shrug, "shrug", 0, "shrug", true)
+local function raw(usr, chan, msg)
+        ircSendRawQ(msg)
+end
+add_cmd(raw, "raw", 101, "raw", false)
 local function version(usr,chan,msg)
 	return "JZTech101's fork of Crackbot"
 end
