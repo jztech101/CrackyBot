@@ -320,10 +320,9 @@ end
 
 local function realchat(usr,channel,msg)
 	didSomething=true
-	if prefix ~= config.prefix then
-		panic,_ = msg:find("^"..config.prefix.."fix")
-		if panic then setPrefix(config.prefix) end
-	end
+prefix = getPrefix(channel)
+if not prefix then prefix = config.prefix end
+
 	local pre,cmd,rest
 	if prefix then
 		_,_,pre,cmd,rest = msg:find("^("..prefix..")([^%s]*)%s?(.*)$")

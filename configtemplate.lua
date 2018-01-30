@@ -30,6 +30,12 @@ channelCommandPermissions = {
 
 -- Do not edit these functions. Go to the end of the file to configure the network settings
 
+channelPrefixes = {
+  --       ["#mychannel"] = '&',
+}
+function getPrefix(chan)
+        if chan and channelPrefixes[chan] then return channelPrefixes[chan] end
+end
 
 
 --Get perm value for part of a hostmask (usually just host)
