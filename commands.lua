@@ -147,7 +147,7 @@ local function version(usr,chan,msg)
 end
 add_cmd(version,"version",0,"version",true)
 local function source(usr, chan, msg)
-	return "https://github.com/jztech101/CrackyBot
+	return "https://github.com/jztech101/CrackyBot"
 end
 add_cmd(source, "source", 0, "prints source of bot", true)
 --SNEAAK
