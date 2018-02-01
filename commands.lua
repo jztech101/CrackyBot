@@ -143,7 +143,7 @@ local function raw(usr, chan, msg)
 end
 add_cmd(raw, "raw", 101, "raw", false)
 local function version(usr,chan,msg)
-	return "Crackybot 1.0"
+	return "Crackybot"
 end
 add_cmd(version,"version",0,"version",true)
 local function source(usr, chan, msg)
