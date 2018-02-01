@@ -30,10 +30,10 @@ local macroCMDs = {
 		return tostring((games.gameUsers[nusr.host].inventory[item] or {amount=0}).amount)
 	end,
 	["USER"] = function(nusr,nchan,nmsg,nargs,usedArgs)
-		return "crackbot"
+		return "Crackybot"
 	end,
 	["PWD"] = function(nusr,nchan,nmsg,nargs,usedArgs)
-		return "/home/crackbot/bot"
+		return "/home/Crackybot/bot"
 	end,
 }
 --Return a helper function to insert new args correctly

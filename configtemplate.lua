@@ -93,11 +93,11 @@ local config = {
 	},
 	--User info, set these to whatever you need
 	user = {
-		nick = "FakeCrackbot",
+		nick = "FakeCrackybot",
 		username = "Meow",
 		realname = "moo",
 		
-		--account = "Crackbot",
+		--account = "Crackybot",
 		--password = "password"
 	},
 	--Owner info, only used now for terminal input

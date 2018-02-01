@@ -365,7 +365,7 @@ if not prefix then prefix = config.prefix end
 		if channel and channel:sub(1,1)=='#' then (irc.channels[channel].users[usr.nick] or {}).lastSaid = {["msg"]=msg, ["time"]=os.time()} end
 	end
 
-	-- relay new Crackbot commits into #powder-bots
+	-- relay new Crackybot commits into #powder-bots
 	-- maybe could add a relay module sometime
 end
 local function chat(usr,channel,msg)

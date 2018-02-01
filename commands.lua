@@ -143,11 +143,11 @@ local function raw(usr, chan, msg)
 end
 add_cmd(raw, "raw", 101, "raw", false)
 local function version(usr,chan,msg)
-	return "JZTech101's fork of Crackbot"
+	return "Crackybot 1.0"
 end
 add_cmd(version,"version",0,"version",true)
 local function source(usr, chan, msg)
-	return "https://github.com/jztech101/Crackbot"
+	return "https://github.com/jztech101/CrackyBot
 end
 add_cmd(source, "source", 0, "prints source of bot", true)
 --SNEAAK
