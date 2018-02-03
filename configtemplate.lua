@@ -6,6 +6,10 @@ permissions = {}
 --Remember to escape .'s and other lua pattern special characters with %
 
 
+--enable fun commands for a channel here
+funcmds = {}
+--example: ["#apple"] = true (Must be set to true, default is false)
+
 --insert per channel permissions here (channel specific ops)
 channelPermissions = {
 	--[[["##mychannel"] = {
