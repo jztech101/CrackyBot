@@ -8,7 +8,7 @@ permissions = {}
 
 --enable fun commands for a channel here
 funcmds = {}
---example: ["#apple"] = true (Must be set to true, default is false)
+--example: funcmds["#apple"] = true (Must be set to true, default is false)
 
 --insert per channel permissions here (channel specific ops)
 channelPermissions = {
