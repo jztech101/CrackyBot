@@ -12,4 +12,3 @@ socket.lua
 lua/*
 mime/*
 socket/*
-plugins/*
