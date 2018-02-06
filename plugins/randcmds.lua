@@ -36,3 +36,16 @@ local function sneaky2(usr,chan,msg)
 	return nil
 end
 add_cmd(sneaky2,"./moo",0,nil,false)
+
+local function time(usr, chan, msg) 
+        return "Time for you to get a watch!"
+end
+add_cmd(time, "time",0, false, false)
+
+local function age(usr, chan, msg)
+        return "The person in question's age is the square root of X divided by Y times Z. What are X, Y and Z? I dunno. I never cared enough to find out"  end
+add_cmd(age, "age",0, false, false)
+
+local function location(usr, chan, msg)
+        return "The person in question's location is X miles away from you. What is X? I dunno. Some number I guess..?"  end
+add_cmd(location, "location",0, false, false)
