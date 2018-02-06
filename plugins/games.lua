@@ -2,7 +2,7 @@ module("games", package.seeall)
 
 local function loadUsers()
 	local t= table.load("plugins/gameUsers.txt") or {}
-	setmetatable(t,{__index=function(t,k) t[k]={cash=1000, lastDoor=os.time(), winStreak=0, loseStreak=0, maxWinStreak=1, maxLoseStreak=1, lastGameWon=nil, inventory={}, coupons={}} return t[k] end})
+	setmetatable(t,{__index=function(t,k) t[k]={_cash=1000, lastDoor=os.time(), winStreak=0, loseStreak=0, maxWinStreak=1, maxLoseStreak=1, lastGameWon=nil, inventory={}, coupons={}} return t[k] end})
 	return t
 end
 gameUsers = gameUsers or loadUsers()
@@ -971,9 +971,9 @@ local function myCash(usr,all)
 		for k,v in pairs(gameUsers[usr.host].inventory or {}) do
 			cash = cash+ (v.cost*v.amount)
 		end
-		return "You have $"..nicenum(cash).." including items."
+		return "$"..nicenum(cash).." including items."
 	end
-	return "You have $"..nicenum(gameUsers[usr.host].cash)
+	return "$"..nicenum(gameUsers[usr.host].cash)
 end
 --give money
 local function give(fromHost,toHost,amt)
@@ -1060,9 +1060,15 @@ local function odoor(usr,door)
 	return "You found $" .. nicenum(randomness) .. " (-"..nicenum(minimum).." to "..nicenum(randMon-minimum)..")!"..rstring
 end
 
---GAME command hooks
---CASH
-local function myMoney(usr,chan,msg,args)
+--GAME command hooks --CASH 
+local function myMoney(usr,chan,msg,args) 
+if args and args[1] then
+        local user = getUserFromNick(args[1])
+        if user and gameUsers[user.host] then
+           usr = user
+           if args[2] then args[1] = args[2]  end  
+        end
+end
 	if args then
 		if args[1]=="stats" then
 			return "WinStreak: "..gameUsers[usr.host].maxWinStreak.." LoseStreak: "..gameUsers[usr.host].maxLoseStreak
@@ -1073,7 +1079,7 @@ local function myMoney(usr,chan,msg,args)
 	end
 	return myCash(usr)
 end
-add_cmd(myMoney,"cash",0,"Your current balance, '/cash [stats]', Sending stats will show some saved stats.",true,{"money"})
+add_cmd(myMoney,"cash",0,"Current balance of a user, '/cash [stats]', Sending stats will show some saved stats.",true,{"money"})
 --GIVE
 local function giveMon(usr,chan,msg,args)
 	if not args[2] then return "Usage: '/give <username> <amount>'" end
@@ -1568,3 +1574,23 @@ local function ask(usr,chan,msg,args)
 	return nil
 end
 add_cmd(ask,"ask",0,"Ask a question to a channel, '/ask <channel> [<prize($)>] <question> <mainAnswer> [<altAns...>]' Optional prize, It will help to put \" around the question and answer.",true)
+
+
+local function inv(usr, chan, msg, args)
+host = usr.host
+if args[1] then 
+        local user = getUserFromNick(args[1])
+        if not user or not gameUsers[user.host] then
+                return "Invalid User"
+        end
+        host = user.host 
+end
+sendmsg = "No Inventory Found"
+for k,v in pairs(gameUsers[host].inventory) do 
+if sendmsg == "No Inventory Found" then sendmsg = v.name.." ("..v.amount.."): $"..nicenum(v.cost*v.amount) 
+else sendmsg = sendmsg.." | "..v.name.." ("..v.amount.."): $"..nicenum(v.cost*v.amount)
+end
+end
+return sendmsg
+end
+add_cmd(inv, "inv",0,"checks inventory", false)
