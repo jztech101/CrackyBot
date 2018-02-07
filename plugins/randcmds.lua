@@ -11,19 +11,19 @@ end
 add_cmd(sneaky3, "moo",0,nil, false)
 
 local function potato(usr, chan, msg)
-    ircSendChatQ(chan, "\001ACTION is a potato", false)
+    ircSendChatQ(chan, "\001ACTION is a potato\001", true)
 end
 add_cmd(potato, "potato", 0, nil, false)
 
 local function cookie(usr,chan,msg) 
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
-    ircSendChatQ(chan, "\001ACTION gives " + nick +" a cookie\001", false) end
+    ircSendChatQ(chan, "\001ACTION gives " + nick +" a cookie\001", true) end
 add_cmd(cookie,"cookie",0,false,false)
 
 local function poke(usr,chan,msg) 
     nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
-    ircSendChatQ(chan, "\001ACTION pokes " + nick +"\001", false) end
+    ircSendChatQ(chan, "\001ACTION pokes " + nick +"\001", true) end
 add_cmd(poke,"poke",0,false,false)
 
 local function sneaky(usr,chan,msg)
