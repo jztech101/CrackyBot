@@ -112,7 +112,7 @@ add_cmd(rbug,"bug",0,"Report something to "..config.owner.nick..", '/bug <msg>'"
 local function seen(usr,chan,msg,args)
 	if not args[1] then return commands["seen"].helptext end
 	local nick = args[1]
-	if args[1]:sub(1,1) == "#" then
+	if isChan(args[1], false) then
 		if not args[2] then return commands["seen"].helptext end
 		chan, nick = args[1], args[2]
 	end

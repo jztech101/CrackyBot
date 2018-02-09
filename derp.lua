@@ -73,3 +73,10 @@ function getArgs(msg)
 	end
 	return args
 end
+
+function isChan(chan, checkprefix)
+if string.sub(chan, 1, 1) == "#" then return true
+elseif checkprefix and (string.sub(chan,1 ,1):match("%W") and string.sub(chan,2,2) == "#") then return true
+else return false
+end
+end

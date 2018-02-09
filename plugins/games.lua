@@ -1470,7 +1470,7 @@ local function quiz(usr,chan,msg,args)
 	end
 	
 	local bet= math.floor(tonumber(args[1]))
-	if chan:sub(1,1)~='#' then
+	if not isChan(chan, false) then
 		if bet>10000 then
 			return "Quiz in query has 10k max bid"
 		end
@@ -1531,7 +1531,7 @@ add_cmd(quiz,"quiz",0,"Start a question for the channel, '/quiz <bet>' First to 
 
 --ASK a question, similar to quiz, but from a user in query
 local function ask(usr,chan,msg,args)
-	if chan:sub(1,1)=='#' then return "Can only start question in query." end
+	if isChan(chan, false) then return "Can only start question in query." end
 	if not msg or not args[3] then return commands["ask"].helptext end
 	local toChan = args[1]
 	if toChan:sub(1,1) ~= "#" then

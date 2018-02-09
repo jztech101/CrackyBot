@@ -3,7 +3,7 @@ module("ircModes", package.seeall)
 --IRC MODE STUFF
 function setMode(chan,mode,tar)
 	if not tar then return end
-	if chan:sub(1,1)=='#' then
+	if isChan(chan, false) then
 		ircSendRawQ("MODE "..chan.." "..mode.." "..tar)
 	else
 		local _,_,channel,target = tar:find("^(.-)%s(.+)[^%s-]?")
@@ -32,7 +32,7 @@ local function mode(usr,chan,msg,args)
 		rest = table.concat(args, " ", 3)
 	else
 		tomode=args[1]
-		if chan:sub(1,1)~='#' then return "Need to specify channel in query" end
+		if not isChan(chan, false) then return "Need to specify channel in query" end
 		tochan=chan
 		rest = table.concat(args, " ", 2)
 	end
@@ -45,7 +45,7 @@ add_cmd(mode,"mode",40,"Set a mode, '/mode [<chan>] <mode> [...]', if no chan gi
 local function op(usr,chan,msg,args)
 	if not args[1] then args[2]=usr.nick end
 	if args[1] then
-		if args[1]:sub(1,1)~='#' then
+		if not isChan(args[1], false) then
 			args[2]=args[1]
 		else
 			if not args[2] then args[2]=usr.nick end
@@ -60,7 +60,7 @@ add_cmd(op,"op",30,"Op a user, '/op [<chan>] <username>'",true)
 local function deop(usr,chan,msg,args)
 	if not args[1] then msg=usr.nick end
 	if args[1] then
-		if args[1]:sub(1,1)~='#' then
+		if not isChan(args[1], false) then
 			msg=args[1]
 		else
 			if not args[2] then msg=usr.nick end
@@ -76,7 +76,7 @@ add_cmd(deop,"deop",30,"DeOp a user, '/deop [<chan>] <username>'",true)
 local function voice(usr,chan,msg,args)
 	if not args[1] then args[2]=usr.nick end
 	if args[1] then
-		if args[1]:sub(1,1)~='#' then
+		if not isChan(args[1], false) then
 			args[2]=args[1]
 		else
 			if not args[2] then args[2]=usr.nick end
@@ -92,7 +92,7 @@ add_cmd(voice,"voice",15,"Voice a user, '/voice [<chan>] <username>'",true)
 local function devoice(usr,chan,msg,args)
 	if not args[1] then args[2]=usr.nick end
 	if args[1] then
-		if args[1]:sub(1,1)~='#' then
+		if not isChan(args[1], false) then
 			args[2]=args[1]
 		else
 			if not args[2] then args[2]=usr.nick end
@@ -109,7 +109,7 @@ local function unquiet(usr,chan,msg,args)
 	if not args[1] then error("No args") end
 	local nick
 	local host
-	if args[1]:sub(1,1)=='#' then
+	if isChan(args[1], false) then
 		chan=args[1]
 		if not args[2] then error("Missing target") end
 		nick = args[2]
@@ -129,7 +129,7 @@ local function quiet(usr,chan,msg,args)
 	if not args[1] then error("No args") end
 	local unbanTimer
 	local nick
-	if args[1]:sub(1,1)=='#' then
+	if isChan(args[1], false) then
 		chan=args[1]
 		if not args[2] then error("Missing target") end
 		nick = args[2]
@@ -157,7 +157,7 @@ local function unban(usr,chan,msg,args)
 	if not args[1] then error("No args") end
 	local nick
 	local host
-	if args[1]:sub(1,1)=='#' then
+	if isChan(args[1], false) then
 		chan = args[1]
 		if not args[2] then error("Missing target") end
 		nick = args[2]
@@ -177,7 +177,7 @@ local function ban(usr,chan,msg,args)
 	local nick
 	local host
 	local unbanTimer
-	if args[1]:sub(1,1)=='#' then
+	if isChan(args[1], false) then
 		chan=args[1]
 		if not args[2] then error("Missing target") end
 		nick = args[2]
@@ -200,7 +200,7 @@ add_cmd(ban,"ban",25,"Ban a user, '/ban [<chan>] <username> [<time>]'",true)
 local function kick(usr,chan,msg,args)
 	if not args[1] then error("No args") end
 	local reason = ""
-	if args[1]:sub(1,1)~='#' then
+	if not isChan(args[1], false) then
 		local t={} for i=2,#args do table.insert(t,args[i]) end
 		reason=table.concat(t," ")
 		args[2]=args[1]
@@ -231,7 +231,7 @@ add_cmd(kickme,"kickme",0,"Places a 'kick me' sign on your back'",false)
 local function kickban(usr,chan,msg,args)
 	ban(usr,chan,msg,args)
 	local timercheck = 2
-	if args[1]:sub(1,1)=='#' then timercheck = 3 end
+	if isChan(args[1], false) then timercheck = 3 end
 	if tonumber(timercheck) then table.remove(args, timercheck) end
 	kick(usr,chan,msg,args)
 end
@@ -241,7 +241,7 @@ add_cmd(kickban,"kban",30,"Kick and ban user, '/kban [<chan>] <username> [<time>
 local function invite(usr,chan,msg,args)
 	if not args[1] then error("No args") end
 	if args[2] then
-		if args[2]:sub(1,1)~='#' then
+		if not isChan(args[2], false) then
 			error("Not a channel")
 		else
 			chan=args[2]
@@ -255,7 +255,7 @@ add_cmd(invite,"invite",50,"Invite someone to the channel, '/invite <user>'",tru
 --JOIN a channel
 local function join(usr,chan,msg,args)
 	if not args[1] then error("No args") end
-	if args[1]:sub(1,1)~='#' then
+	if not isChan(args[1], false) then
 		error("Not a channel")
 	else
 		chan=args[1]
@@ -268,7 +268,7 @@ add_cmd(join,"join",101,"Make bot join a channel, '/join <chan>'",true)
 --PART a channel
 local function part(usr,chan,msg,args)
 	if args[1] then
-		if args[1]:sub(1,1)~='#' then
+		if not isChan(args[1], false) then
 			error("Not a channel")
 		else
 			chan=args[1]
@@ -283,7 +283,7 @@ add_cmd(part,"part",101,"Make bot part a channel, '/part <chan>'",true)
 --CYCLE a channel
 local function cycle(usr,chan,msg,args)
 	if args[1] then
-		if args[1]:sub(1,1)~='#' then
+		if not isChan(args[1], false) then
 			error("Not a channel")
 		else
 			chan=args[1]
@@ -298,7 +298,7 @@ add_cmd(cycle,"cycle",101,"Make bot part and rejoin channel, '/cycle <chan>'",tr
 --REMOVE a user (ninja)
 local function remove(usr,chan,msg,args)
 	if not args[1] then error("No args") end
-	if args[1] and args[1]:sub(1,1)=='#' then
+	if args[1] and isChan(args[1], false) then
 		chan = args[1]
 		table.remove(args, 1)
 	end

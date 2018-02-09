@@ -362,7 +362,7 @@ if not prefix then prefix = config.prefix end
 	else
 		if err then ircSendNoticeQ(usr.nick,err) end
 		--Last said
-		if channel and channel:sub(1,1)=='#' then (irc.channels[channel].users[usr.nick] or {}).lastSaid = {["msg"]=msg, ["time"]=os.time()} end
+		if channel and isChan(channel, false) then (irc.channels[channel].users[usr.nick] or {}).lastSaid = {["msg"]=msg, ["time"]=os.time()} end
 	end
 
 	-- relay new Crackybot commits into #powder-bots
@@ -426,7 +426,7 @@ irc:hook("OnPart","partCheck",partCheck)
 local function onNotice(usr,channel,msg)
 	print("[NOTICE "..tostring(channel).."] <".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ">: "..tostring(msg))
 	if config.logchannel then
-		if string.sub(channel,1, 1):match("%W") then
+		if isChan(channel, true) then
         		ircSendChatQ(config.logchannel, "[Notice] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(channel)..") "..tostring(msg))
 		else
         		ircSendChatQ(config.logchannel, "[Notice] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": "..tostring(msg))

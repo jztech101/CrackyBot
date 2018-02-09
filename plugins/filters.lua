@@ -33,7 +33,7 @@ local function chatFilter(chan,text)
 		table.remove(activeFilters[chan].t)
 	end
 	--don't censor query
-	if badWordFilt and chan:sub(1,1)=='#' then text = badWordFilt(text) end
+	if badWordFilt and isChan(chan, false) then text = badWordFilt(text) end
 	return chan,text
 end
 remSendHook("filter")

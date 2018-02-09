@@ -62,7 +62,7 @@ end
 
 local function changeLevel(usr,chan,msg,args,isignore)
 	local channel, noescape = nil, false
-	if #args > 1 and args[1]:sub(1,1) == "#" then
+	if #args > 1 and isChan(args[1], false) then
 		channel = args[1]
 		table.remove(args, 1)
 	end
