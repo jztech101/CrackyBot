@@ -93,7 +93,7 @@ local function say(usr,chan,msg)
                 if isChan(msg, true)
                         msg2 = nil
 			for word in string.gmatch(msg, "%S+") do
-                                if isChan(msg,true) then
+                                if isChan(word,true) then
                                         chan = word
                                 else
                                         if msg2 == nil then msg2 = word else msg2 = msg2.." ".. word end
