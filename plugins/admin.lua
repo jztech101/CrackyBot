@@ -90,7 +90,7 @@ add_cmd(act, "act", 101, false, false)
 local function say(usr,chan,msg)
         if msg then
                 msg2 = msg
-                if isChan(msg, true)
+                if isChan(msg, true) then
                         msg2 = nil
 			for word in string.gmatch(msg, "%S+") do
                                 if isChan(word,true) then
