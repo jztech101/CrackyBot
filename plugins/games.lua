@@ -971,9 +971,9 @@ local function myCash(usr,all)
 		for k,v in pairs(gameUsers[usr.host].inventory or {}) do
 			cash = cash+ (v.cost*v.amount)
 		end
-		return "$"..nicenum(cash).." including items."
+		return "Total Including Items: $"..nicenum(cash)
 	end
-	return "$"..nicenum(gameUsers[usr.host].cash)
+	return "Total In Cash: $"..nicenum(gameUsers[usr.host].cash)
 end
 --give money
 local function give(fromHost,toHost,amt)
