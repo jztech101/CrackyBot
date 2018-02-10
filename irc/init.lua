@@ -107,7 +107,7 @@ function meta_preconnect:connect(_host, _port, _password)
 		if type(secure) == "table" then
 			params = secure
 		else
-			params = {mode = "client", protocol = "sslv23", verify = "none"}
+			params = {mode = "client", protocol = "tlsv1_2", verify = "none"}
 		end
 
 		s = ssl.wrap(s, params)
