@@ -156,7 +156,7 @@ function timerCheck()
 	for k,v in pairs(waitingCommands) do
 		if os.time()>v.time then
 			didSomething=true
-			local s,s2,resp,noNickPrefix = pcall(coroutine.resume,v.co)
+			local s,s2,resp = pcall(coroutine.resume,v.co)
 			if not s and s2 then
 				ircSendChatQ(v.channel,s2)
 			elseif s2 then
@@ -167,13 +167,12 @@ function timerCheck()
 							ircSendChatQ(v.channel,vv)
 						end
 					else
-						if not noNickPrefix then resp=v.usr.nick..": "..resp end
 						ircSendChatQ(v.channel,resp)	
 					end
 					table.remove(waitingCommands,k)
 				elseif resp==false then
 					--wait this amount of time to resume
-					v.time=os.time()+noNickPrefix-1
+					v.time=os.time()
 				else
 					table.remove(waitingCommands,k)
 				end
@@ -343,17 +342,16 @@ if not prefix then prefix = config.prefix end
 	if func then
 		--we can execute the command
 		local co = coroutine.create(func)
-		local s,s2,resp,noNickPrefix = pcall(coroutine.resume,co)
+		local s,s2,resp = pcall(coroutine.resume,co)
 		if not s and s2 then
 			ircSendChatQ(channel,s2)
 		elseif s2 then
 			--coroutine was success
 			if resp then
-				if not noNickPrefix then resp=usr.nick..": "..resp end
 				ircSendChatQ(channel,resp)
 			elseif resp==false then
 				--wait this amount of time to resume
-				table.insert(waitingCommands,{co=co,time=os.time()+noNickPrefix-1,usr=usr,channel=channel,msg=msg})
+				table.insert(waitingCommands,{co=co,time=os.time(),usr=usr,channel=channel,msg=msg})
 			end
 		else
 			ircSendChatQ(channel,resp)
