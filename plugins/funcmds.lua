@@ -5,8 +5,8 @@ end
 
 local function annoy(usr,chan,msg)
 	if funcmd(usr, chan) then
-        nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
-        nick = (nick.." ")*25
+        nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end        
+        nick = (nick.." ")*(math.floor(300 / (string.len(nick)) + 1))
         ircSendChatQ(chan, "\001ACTION pokes "..nick.."\001", true)
         ircSendChatQ(chan, "\001ACTION pokes "..nick.."\001", true)
         ircSendChatQ(chan, "\001ACTION pokes "..nick.."\001", true) end 
