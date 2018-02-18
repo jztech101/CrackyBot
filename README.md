@@ -1,6 +1,6 @@
 Installation & Configuration
 ============================
-CrackyBot requires lua 5.1 or luajit
+CrackyBot requires lua 5.3, lua-socket and lua-sec
 
 1. Copy configtemplate.lua into config.lua
 2. Edit config.lua to your liking
