@@ -2,7 +2,7 @@ module("games", package.seeall)
 
 local function loadUsers()
 	local t= table.load("plugins/gameUsers.txt") or {}
-	setmetatable(t,{__index=function(t,k) t[k]={_cash=1000, lastDoor=os.time(), winStreak=0, loseStreak=0, maxWinStreak=1, maxLoseStreak=1, lastGameWon=nil, inventory={}, coupons={}} return t[k] end})
+	setmetatable(t,{__index=function(t,k) t[k]={cash=1000, lastDoor=os.time(), winStreak=0, loseStreak=0, maxWinStreak=1, maxLoseStreak=1, lastGameWon=nil, inventory={}, coupons={}} return t[k] end})
 	return t
 end
 gameUsers = gameUsers or loadUsers()

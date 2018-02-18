@@ -84,10 +84,15 @@ end
 didSomething=false
 while true do
 	if shutdown then irc:shutdown() break end
+	--print("thinking irc")
 	irc:think()
+		--print("thinking console")
 	consoleThink()
+		--print("sending irc")
 	ircSendOne()
+		--print("checking timer")
 	timerCheck()
+		--print("sleeping")
 	if not didSomething then
 		sleep(0.05)
 	else

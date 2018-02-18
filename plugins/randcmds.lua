@@ -1,7 +1,7 @@
 module("randcmds",package.seeall)
 
 local function shrug(usr, chan, msg)
-    return "┻━┻ ︵ ¯\_(ツ)_/¯ ︵ ┻━┻"
+    return "┻━┻ ︵ ¯\\_(ツ)_/¯ ︵ ┻━┻"
 end
 add_cmd(shrug, "shrug", 0, "shrug", true)
 

@@ -137,6 +137,7 @@ function remUpdate(name)
 	end
 end
 function timerCheck()
+	--print("check for timers")
 	for k,v in pairs(timers) do
 		if os.time()>v.time then
 			didSomething=true
@@ -145,14 +146,17 @@ function timerCheck()
 			table.remove(timers,k)
 		end
 	end
+		--print("check for updates")
 	--updates should never be removed, have an interval timer
 	for k,v in pairs(updates) do
 		if os.time()-v.lastcheck>=v.time then
+			--print (v.name)
 			v.lastcheck = os.time()
 			local s,r = pcall(v.f)
 			if not s then ircSendChatQ(v.chan,r) end
 		end
 	end
+		--print("check for waiting commands")
 	for k,v in pairs(waitingCommands) do
 		if os.time()>v.time then
 			didSomething=true

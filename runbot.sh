@@ -10,7 +10,7 @@ trap ctrl_c SIGINT
 
 luaver=$(which luajit)
 if [ $? -ne 0 ]; then
-	luaver=$(which lua5.1)
+	luaver=$(which lua5.3)
 fi
 if [ $? -ne 0 ]; then
         luaver=$(which lua)

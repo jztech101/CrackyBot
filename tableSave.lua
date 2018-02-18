@@ -15,18 +15,21 @@ do
 		-- initiate variables for save procedure
 		local tables,lookup = { tbl },{ [tbl] = 1 }
 		file:write( "return {"..charE )
-
 		for idx,t in ipairs( tables ) do
 			file:write( "-- Table: {"..idx.."}"..charE )
 			file:write( "{"..charE )
 			local thandled = {}
-
-			for i,v in ipairs( t ) do
+			--print(#t)
+			for i=1,#t,1 do
+				--print(i)
+				v = t[v]
 				thandled[i] = true
 				local stype = type( v )
 				-- only handle value
 				if stype == "table" then
+					--print(lookup[v])
 					if not lookup[v] then
+						--print(v)
 						table.insert( tables, v )
 						lookup[v] = #tables
 					end
@@ -37,7 +40,7 @@ do
 					file:write(  charS..tostring( v )..","..charE )
 				end
 			end
-
+			--print("hi")
 			for i,v in pairs( t ) do
 				-- escape handled values
 				if (not thandled[i]) then
