@@ -8,10 +8,9 @@ local tostring = tostring
 local type = type
 local random = math.random
 
-module "irc"
-
+local irc = {}
 --protocol parsing
-function parse(line)
+function irc.parse(line)
 	local prefix
 	local lineStart = 1
 	if line:sub(1,1) == ":" then
@@ -50,15 +49,15 @@ function parse(line)
 	return prefix, cmd, params
 end
 
-function parseWhoAccess(acs)
+function irc.parseWhoAccess(acs)
     return acs:match("([%+@]?)$")
 end
-function parseNick(nick)
+function irc.parseNick(nick)
 	local access, name = nick:match("^([%+@]*)(.+)$")
 	return parseAccess(access or ""), name
 end
 
-function parsePrefix(prefix)
+function irc.parsePrefix(prefix)
 	local user = {}
 	if prefix then
 		user.access, user.nick, user.username, user.host = prefix:match("^([%+@]*)(.+)!(.+)@(.+)$")
@@ -68,7 +67,7 @@ function parsePrefix(prefix)
 	return user
 end
 
-function parseAccess(accessString)
+function irc.parseAccess(accessString)
 	local access = {op = false, halfop = false, voice = false}
 	for c in accessString:gmatch(".") do
 		if     c == "@" then access.op = true
@@ -106,20 +105,20 @@ setmetatable(color, {__call = function(_, text, colornum)
 end})
 
 local boldByte = char(2)
-function bold(text)
+function irc.bold(text)
 	return boldByte..text..boldByte
 end
 
 local underlineByte = char(31)
-function underline(text)
+function irc.underline(text)
 	return underlineByte..text..underlineByte
 end
 
-function checkNick(nick)
+function irc.checkNick(nick)
 	return nick:find("^[a-zA-Z_%-%[|%]%^{|}`][a-zA-Z0-9_%-%[|%]%^{|}`]*$") ~= nil
 end
 
-function defaultNickGenerator(nick)
+function irc.defaultNickGenerator(nick)
 	-- LuaBot -> LuaCot -> LuaCou -> ...
 	-- We change a random charachter rather than appending to the
 	-- nickname as otherwise the new nick could exceed the ircd's
@@ -138,3 +137,4 @@ function defaultNickGenerator(nick)
 	return nick
 end
 
+return irc

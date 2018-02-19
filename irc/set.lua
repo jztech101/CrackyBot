@@ -6,7 +6,7 @@ local remove = table.remove
 local ipairs = ipairs
 local error = error
 
-module "irc.set"
+irc.set = {}
 
 local set = {}
 set.__index = set
@@ -54,3 +54,4 @@ function set:poll()
 	local read, err = self:select()
 	return err == "timeout" and self.connections or read
 end
+return irc.set

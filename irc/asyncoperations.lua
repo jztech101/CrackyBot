@@ -3,8 +3,7 @@ local assert = assert
 local select = select
 local pairs = pairs
 
-module "irc"
-
+local irc = {}
 local meta = _META
 
 function meta:send(msg, ...)
@@ -88,3 +87,5 @@ function meta:setMode(t)
 
 	self:send("MODE %s %s", verify(target, 3), mode)
 end
+
+return irc

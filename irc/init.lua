@@ -11,8 +11,7 @@ local tonumber = tonumber
 local type = type
 local pcall = pcall
 
-module "irc"
-
+local irc = {}
 local meta = {}
 meta.__index = meta
 _META = meta
@@ -31,7 +30,7 @@ function meta_preconnect.__index(o, k)
 	return v
 end
 
-function new(data)
+function irc.new(data)
 	local o = {
 		nick = assert(data.nick, "Field 'nick' is required");
 		username = data.username or "lua";
@@ -232,3 +231,4 @@ function meta:topic(channel)
 	self:send("TOPIC %s", channel)
 end
 
+return irc

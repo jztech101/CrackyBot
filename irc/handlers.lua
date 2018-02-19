@@ -3,8 +3,6 @@ local error = error
 local tonumber = tonumber
 local table = table
 
-module "irc"
-
 handlers = {}
 
 handlers["PING"] = function(o, prefix, query)
@@ -207,3 +205,5 @@ handlers["ERROR"] = function(o, prefix, message)
 	o:shutdown()
 	error(message, 3)
 end
+
+return handlers

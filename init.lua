@@ -27,7 +27,7 @@ if not WINDOWS and config.terminalinput then
 end
 shutdown = false
 user = config.user
-irc=irc.new(user)
+irc = irc.new(user)
 
 --support multiple networks sometime
 local connectioninfo = {
