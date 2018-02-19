@@ -1,3 +1,4 @@
+local filters = require("plugins.filters")
 local games = {}
 local function loadUsers()
 	local t= table.load("plugins/gameUsers.txt") or {}
@@ -159,7 +160,7 @@ local function streak(usr,win)
 end
 
 local function nicenum(number)
-	if filters and filters.nicenum then return filters.nicenum(tostring(number)) else return number end
+	return filters.nicenum(tostring(number))
 end
 
 --Add coupon to user : coup is the table index of coupon?
@@ -224,7 +225,7 @@ local function addInv(usr,item,amt,store)
 	local InvItem = inv[item.name]
 	local coups = itemValueBonus[item.name]
 	if coups then
-		local change, cnum = hasCoup(usr,table.unpack(coups))
+		local change, cnum = games.hasCoup(usr,table.unpack(coups))
 		if change and (not store or couponList[change].allowstore) then item.cost = couponList[change].func(item.cost,cnum) end
 	end
 	if InvItem then
@@ -845,12 +846,12 @@ local itemUses = {
 		return "You are just happy you have the billion"
 	end,
 	["whitehole"] = function(usr, args)
-		if hasCoup(usr,18) then
+		if games.hasCoup(usr,18) then
 			if not gameUsers[usr.host].inventory["blackhole"] then
 				return "I wouldn't want to use that without a blackhole."
 			end
 			remInv(usr,"blackhole",1)
-			remCoup(usr,18,1)
+			games.remCoup(usr,18,1)
 			return "Whoosh, they both vanished."
 		else
 			return "You don't have that!"
@@ -990,8 +991,8 @@ local function coinToss(usr,bet)
 		return "Not enough money!"
 	end
 	local res = math.random()
-	local bonus = hasCoup(usr,7,8,9,10)
-	if bonus then res = res + couponList[bonus].var remCoup(usr,bonus,1) end
+	local bonus = games.hasCoup(usr,7,8,9,10)
+	if bonus then res = res + couponList[bonus].var games.remCoup(usr,bonus,1) end
 	if res>.51 then
 		--win
 		local str = changeCash(usr,bet)
@@ -1180,8 +1181,8 @@ local function store(usr,chan,msg,args)
 			local v = copyTable(storeInventory[item])
 			if v and v.instock then
 				--New Coupon discounts!
-				local discount = hasCoup(usr,1,2,3)
-				if discount then v.cost = v.cost * (1-couponList[discount].var) remCoup(usr,discount,1) end
+				local discount = games.hasCoup(usr,1,2,3)
+				if discount then v.cost = v.cost * (1-couponList[discount].var) games.remCoup(usr,discount,1) end
 
 				local cost = v.cost*amt
 
@@ -1231,8 +1232,8 @@ local function store(usr,chan,msg,args)
 				if v and v.amount>=amt then
 					local value = v.cost*amt
 					--New Coupon Bonus
-					local discount = hasCoup(usr,4,5,6)
-					if discount then value = value * (1+couponList[discount]) remCoup(usr,discount,1) end
+					local discount = games.hasCoup(usr,4,5,6)
+					if discount then value = value * (1+couponList[discount]) games.remCoup(usr,discount,1) end
 
 					if v.cost<0 and gameUsers[usr.host].cash < -value then return "You can't afford that!" end
 					changeCash(usr,value)
@@ -1500,8 +1501,8 @@ local function quiz(usr,chan,msg,args)
 				if answeredIn <= 0 then answeredIn=1 end
 				local earned = math.floor(bet*(prizeMulti+(math.sqrt(1.1+1/answeredIn)-1)*3))
 				--Quiz Coupon Answer Bonus
-				local discount = hasCoup(nusr,11,12,13)
-				if discount then earned = earned * (1+couponList[discount]) remCoup(usr,discount,1) end
+				local discount = games.hasCoup(nusr,11,12,13)
+				if discount then earned = earned * (1+couponList[discount]) games.remCoup(usr,discount,1) end
 
 				local cstr = changeCash(nusr,earned)
 				if nusr.nick==usr.nick then
@@ -1587,12 +1588,12 @@ end
 sendmsg = "No Inventory Found"
 totalinv = 0
 for k,v in pairs(gameUsers[host].inventory) do 
-if sendmsg == "No Inventory Found" then sendmsg = v.name.." ("..v.amount.."): $"..filters.nicenum(v.cost*v.amount)
-else sendmsg = sendmsg.." | "..v.name.." ("..v.amount.."): $"..filters.nicenum(v.cost*v.amount)
+if sendmsg == "No Inventory Found" then sendmsg = v.name.." ("..v.amount.."): $"..nicenum(v.cost*v.amount)
+else sendmsg = sendmsg.." | "..v.name.." ("..v.amount.."): $"..nicenum(v.cost*v.amount)
 end
 totalinv = totalinv+(v.cost*v.amount)
 end
-if totalinv ~= 0 then sendmsg = "Total In Inventory: $"..filters.nicenum(totalinv).." | "..sendmsg end
+if totalinv ~= 0 then sendmsg = "Total In Inventory: $"..nicenum(totalinv).." | "..sendmsg end
 return sendmsg
 end
 add_cmd(inv, "inv",0,"checks inventory", false)
