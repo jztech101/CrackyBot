@@ -1587,12 +1587,12 @@ end
 sendmsg = "No Inventory Found"
 totalinv = 0
 for k,v in pairs(gameUsers[host].inventory) do 
-if sendmsg == "No Inventory Found" then sendmsg = v.name.." ("..v.amount.."): $"..nicenum(v.cost*v.amount) 
-else sendmsg = sendmsg.." | "..v.name.." ("..v.amount.."): $"..nicenum(v.cost*v.amount)
+if sendmsg == "No Inventory Found" then sendmsg = v.name.." ("..v.amount.."): $"..filters.nicenum(v.cost*v.amount)
+else sendmsg = sendmsg.." | "..v.name.." ("..v.amount.."): $"..filters.nicenum(v.cost*v.amount)
 end
 totalinv = totalinv+(v.cost*v.amount)
 end
-if totalinv ~= 0 then sendmsg = "Total In Inventory: $"..nicenum(totalinv).." | "..sendmsg end
+if totalinv ~= 0 then sendmsg = "Total In Inventory: $"..filters.nicenum(totalinv).." | "..sendmsg end
 return sendmsg
 end
 add_cmd(inv, "inv",0,"checks inventory", false)
