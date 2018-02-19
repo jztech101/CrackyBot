@@ -170,7 +170,7 @@ end
 function meta:handle(prefix, cmd, params)
 	local handler = handlers[cmd]
 	if handler then
-		return handler(self, prefix, unpack(params))
+		return handler(self, prefix, table.unpack(params))
 	end
 end
 
