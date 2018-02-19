@@ -1,5 +1,4 @@
-module("filters", package.seeall)
-
+local m = {}
 local filters = {}
 local activeFilters = {}
 local badWordFilt = nil
@@ -676,3 +675,4 @@ local function badWord(usr,chan,msg,args)
 	return "Usage: badword add/rem <word>"
 end
 add_cmd(badWord,"badword",20,"Set or remove bad words, '/badword add/rem <word>'",true)
+return m

@@ -1,5 +1,4 @@
-module("channeladmin",package.seeall)
-
+local channeladmin = {}
 local function chmod(usr,chan,msg,args)
 	return changeLevel(usr, chan, msg, args, false)
 end
@@ -8,3 +7,4 @@ local function ignore(usr,chan,msg,args)
 	return changeLevel(usr, chan, msg, args, true)
 end
 add_cmd(ignore,"ignore",40,"Sets a global or channel ignore on a user, '/ignore [<channel>] [-noescape] <user/host> [<seconds>]'",true)
+return channeladmin

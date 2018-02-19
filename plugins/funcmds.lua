@@ -1,4 +1,4 @@
-module("funcmds",package.seeall)
+local funcmds = {}
 local function funcmd(usr, chan)
 if funcmds[chan] or getPerms(usr.host) == 101 then return true else return false end
 end
@@ -23,3 +23,4 @@ end
 end
 end
 add_cmd(repeats, "repeat", 0, false, false)  
+return funcmds

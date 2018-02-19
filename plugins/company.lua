@@ -1,5 +1,4 @@
-module("company", package.seeall)
-
+local company = {}
 local defaultVars = {cash=0,employees=0,workSpeed=1,emplSpeed=1,loyalty=65,currentProject={},completedProjects=0,lastNick="",}
 local defaultPVars = {name="Project0",work=0,needed=60,reward=150,time=70,timespent=0}
 local function loadUsers()
@@ -139,3 +138,4 @@ local function hireEmp(usr,chan,msg,args)
 	end
 end
 add_cmd(hireEmp,"hire",0,"Hire workers to work on projects faster '/hire [amt]' Note: Employees may leave your company at any time during a project",true)
+return company

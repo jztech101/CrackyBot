@@ -1,7 +1,6 @@
-module("ircModes", package.seeall)
-
+local ircmodes = {}
 --IRC MODE STUFF
-function setMode(chan,mode,tar)
+function ircmodes.setMode(chan,mode,tar)
 	if not tar then return end
 	if isChan(chan, false) then
 		ircSendRawQ("MODE "..chan.." "..mode.." "..tar)
@@ -53,7 +52,7 @@ local function op(usr,chan,msg,args)
 		end
 	end
 	checkPermissions(usr.host, "op", chan, "op")
-	setMode(chan,"+o", args[2] or msg)
+	ircmodes.setMode(chan,"+o", args[2] or msg)
 end
 add_cmd(op,"op",30,"Op a user, '/op [<chan>] <username>'",true)
 --DEOP
@@ -68,7 +67,7 @@ local function deop(usr,chan,msg,args)
 		end
 	end
 	checkPermissions(usr.host, "deop", chan, "deop")
-	setMode(chan,"-o",args[2] or msg)
+	ircmodes.setMode(chan,"-o",args[2] or msg)
 end
 add_cmd(deop,"deop",30,"DeOp a user, '/deop [<chan>] <username>'",true)
 
@@ -84,7 +83,7 @@ local function voice(usr,chan,msg,args)
 		end
 	end
 	checkPermissions(usr.host, "voice", chan, "voice")
-	setMode(chan,"+v", nick)
+	ircmodes.setMode(chan,"+v", nick)
 end
 add_cmd(voice,"voice",15,"Voice a user, '/voice [<chan>] <username>'",true)
 
@@ -100,7 +99,7 @@ local function devoice(usr,chan,msg,args)
 		end
 	end
 	checkPermissions(usr.host, "devoice", chan, "devoice")
-	setMode(chan,"-v",args[2] or msg)
+	ircmodes.setMode(chan,"-v",args[2] or msg)
 end
 add_cmd(devoice,"devoice",10,"DeVoice a user, '/devoice [<chan>] <username>'",true)
 
@@ -120,7 +119,7 @@ local function unquiet(usr,chan,msg,args)
 	host = getUserFromNick(nick)
     if host and host.host then host = "*!*@"..host.host else host = nick end
 	checkPermissions(usr.host, "unquiet", chan, "unquiet")
-	setMode(chan,"-q",host)
+	ircmodes.setMode(chan,"-q",host)
 end
 add_cmd(unquiet,"unquiet",15,"UnQuiet a user, '/unquiet [<chan>] <host/username>'",true,{"unstab"})
 
@@ -141,7 +140,7 @@ local function quiet(usr,chan,msg,args)
 	local host = getUserFromNick(nick)
 	if host and host.host then host = "*!*@"..host.host else host = nick end
 	checkPermissions(usr.host, "quiet", chan, "quiet")
-	setMode(chan,"+q",host)
+	ircmodes.setMode(chan,"+q",host)
 	if not unbanTimer then
 		unbanTimer = math.random(60,600)
 	end
@@ -167,7 +166,7 @@ local function unban(usr,chan,msg,args)
 	host = getUserFromNick(nick)
 	if host and host.host then host = "*!*@"..host.host else host = nick end
 	checkPermissions(usr.host, "unban", chan, "unban")
-	setMode(chan,"-b",host)
+	ircmodes.setMode(chan,"-b",host)
 end
 add_cmd(unban,"unban",20,"Unban a user, '/unban [<chan>] <host/username>'",true)
 
@@ -189,7 +188,7 @@ local function ban(usr,chan,msg,args)
 	host = getUserFromNick(nick)
 	if host and host.host then host = "*!*@"..host.host else host = nick end
 	checkPermissions(usr.host, "ban", chan, "ban")
-	setMode(chan,"+b",host)
+	ircmodes.setMode(chan,"+b",host)
 	if unbanTimer then
 		addTimer(setMode[chan]["-b"][host],unbanTimer,chan)
 	end
@@ -309,3 +308,4 @@ local function remove(usr,chan,msg,args)
 	--ircSendRawQ("JOIN "..chan) --cycle doesn't work, so lets just let the autorejoin fix it
 end
 add_cmd(remove,"remove",50,"Forefully remove a user from a channel, '/remove [<chan>] <user> [<reason>]'",true, {"ninja"})
+return ircmodes

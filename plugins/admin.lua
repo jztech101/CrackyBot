@@ -1,5 +1,4 @@
-module("admin",package.seeall)
-
+local admin = {}
 local function userstatus(usr,chan,msg,args)
 	if chan:sub(1,1)~="#" then return "Be in chan idiot" end
 	if irc.channels[chan].users[msg] then
@@ -150,3 +149,4 @@ local function lua2(usr,chan,msg,args)
 	return "ERROR: " .. err
 end
 add_cmd(lua2,"..",101,"Runs full lua code, '/lua <code>'",false)
+return admin

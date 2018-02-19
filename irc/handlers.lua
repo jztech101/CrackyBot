@@ -1,10 +1,5 @@
-local pairs = pairs
-local error = error
-local tonumber = tonumber
-local table = table
-
-handlers = {}
-
+local util = require("irc.util")
+local handlers = {}
 handlers["PING"] = function(o, prefix, query)
 	o:send("PONG :%s", query)
 end
@@ -17,18 +12,18 @@ end
 handlers["PRIVMSG"] = function(o, prefix, channel, message)
 	if message:sub(1,1) == "\001" then
 		local space = message:find(" ") or #message
-		o:invoke("OnCTCP", parsePrefix(prefix), channel, message:sub(2, space-1):upper(), message:sub(space+1,#message-1))
+		o:invoke("OnCTCP", util.parsePrefix(prefix), channel, message:sub(2, space-1):upper(), message:sub(space+1,#message-1))
 	else
-		o:invoke("OnChat", parsePrefix(prefix), channel, message)
+		o:invoke("OnChat", util.parsePrefix(prefix), channel, message)
 	end
 end
 
 handlers["NOTICE"] = function(o, prefix, channel, message)
-	o:invoke("OnNotice", parsePrefix(prefix), channel, message)
+	o:invoke("OnNotice", util.parsePrefix(prefix), channel, message)
 end
 
 handlers["JOIN"] = function(o, prefix, channel)
-	local user = parsePrefix(prefix)
+	local user = util.parsePrefix(prefix)
 	if o.track_users then
 		if user.nick == o.nick and not o.channels[channel] then
 			o.channels[channel] = {users = {}}
@@ -40,7 +35,7 @@ handlers["JOIN"] = function(o, prefix, channel)
 end
 
 handlers["PART"] = function(o, prefix, channel, reason)
-	local user = parsePrefix(prefix)
+	local user = util.parsePrefix(prefix)
 	if o.track_users then
 		if user.nick == o.nick then
 			o.channels[channel] = nil
@@ -62,11 +57,11 @@ handlers["KICK"] = function(o, prefix, channel, kicked, reason)
 			end
 		end
 	end
-	o:invoke("OnKick", channel, kicked, parsePrefix(prefix), reason)
+	o:invoke("OnKick", channel, kicked,util.parsePrefix(prefix), reason)
 end
 
 handlers["QUIT"] = function(o, prefix, msg)
-	local user = parsePrefix(prefix)
+	local user =util.parsePrefix(prefix)
 	if o.track_users then
 		for channel, v in pairs(o.channels) do
 			v.users[user.nick] = nil
@@ -76,7 +71,7 @@ handlers["QUIT"] = function(o, prefix, msg)
 end
 
 handlers["NICK"] = function(o, prefix, newnick)
-	local user = parsePrefix(prefix)
+	local user =util.parsePrefix(prefix)
 	if o.track_users then
 		for channel, v in pairs(o.channels) do
 			local users = v.users
@@ -115,7 +110,7 @@ handlers["433"] = needNewNick
 --WHO list
 handlers["352"] = function(o, prefix, me, channel, name1, host, serv, name, access1 ,something, something2)
 	if o.track_users then
-		local user = {nick=name, host=host, username=name1, serv=serv, access=parseAccess(access1), fullhost=name.."!"..name1.."@"..host}
+		local user = {nick=name, host=host, username=name1, serv=serv, access=util.parseAccess(access1), fullhost=name.."!"..name1.."@"..host}
 		--print(user.nick,user.host,user.ID,user.serv,user.access)
 		if not o.channels[channel] then
 			o.channels[channel] = {users = {}}
@@ -132,7 +127,7 @@ end
 
 		local users = o.channels[channel].users
 		for nick in names:gmatch("(%S+)") do
-			local access, name = parseNick(nick)
+			local access, name =util.parseNick(nick)
 			users[name] = {access = access}
 		end
 	end
@@ -197,7 +192,7 @@ handlers["MODE"] = function(o, prefix, target, modes, ...)
 			end
 		end
 	end
-	o:invoke("OnModeChange", parsePrefix(prefix), target, modes, ...)
+	o:invoke("OnModeChange",util.parsePrefix(prefix), target, modes, ...)
 end
 
 handlers["ERROR"] = function(o, prefix, message)

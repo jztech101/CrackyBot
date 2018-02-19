@@ -1,8 +1,8 @@
 if IRC_RUNNING then error("Already running") end
 IRC_RUNNING=true
 WINDOWS = package.config:sub(1,1) == "\\"
+require("irc")
 dofile("derp.lua")
-dofile("irc/init.lua")
 
 local s,r = pcall(dofile,"config.lua")
 if not s then
@@ -27,7 +27,7 @@ if not WINDOWS and config.terminalinput then
 end
 shutdown = false
 user = config.user
-irc = irc.new(user)
+irc = new(user)
 
 --support multiple networks sometime
 local connectioninfo = {

@@ -1,10 +1,4 @@
-local table = table
-local assert = assert
-local select = select
-local pairs = pairs
-
-local irc = {}
-local meta = _META
+local meta = {}
 
 function meta:send(msg, ...)
 	if select("#", ...) > 0 then
@@ -88,4 +82,4 @@ function meta:setMode(t)
 	self:send("MODE %s %s", verify(target, 3), mode)
 end
 
-return irc
+return meta

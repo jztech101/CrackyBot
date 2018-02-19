@@ -1,5 +1,4 @@
-module("generalcmds",package.seeall)
-
+local generalcmds = {}
 --LIST
 local function list(usr,chan,msg,args)
 	local perm,chanPerm = tonumber(args[1]) or getPerms(usr.host), not tonumber(args[1]) and getPerms(usr.host,chan)
@@ -136,3 +135,4 @@ local function seen(usr,chan,msg,args)
 	return msg
 end
 add_cmd(seen,"seen",0,"Display a last seen message '/seen [<chan>] <nick>'",true)
+return generalcmds

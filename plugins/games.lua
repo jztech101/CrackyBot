@@ -1,5 +1,4 @@
-module("games", package.seeall)
-
+local games = {}
 local function loadUsers()
 	local t= table.load("plugins/gameUsers.txt") or {}
 	setmetatable(t,{__index=function(t,k) t[k]={cash=1000, lastDoor=os.time(), winStreak=0, loseStreak=0, maxWinStreak=1, maxLoseStreak=1, lastGameWon=nil, inventory={}, coupons={}} return t[k] end})
@@ -164,7 +163,7 @@ local function nicenum(number)
 end
 
 --Add coupon to user : coup is the table index of coupon?
-function addCoup(usr,coup,amt)
+function games.addCoup(usr,coup,amt)
 	gameUsers[usr.host].coupons = gameUsers[usr.host].coupons or {}
 	local userC = gameUsers[usr.host].coupons
 	if userC[coup] then
@@ -173,7 +172,7 @@ function addCoup(usr,coup,amt)
 		userC[coup] = amt
 	end
 end
-function remCoup(usr,coup,amt)
+function games.remCoup(usr,coup,amt)
 	gameUsers[usr.host].coupons = gameUsers[usr.host].coupons or {}
 	local userC = gameUsers[usr.host].coupons
 	if userC[coup] then
@@ -182,7 +181,7 @@ function remCoup(usr,coup,amt)
 	end
 end
 --Returns first valid coupon and how many
-function hasCoup(usr,...)
+function games.hasCoup(usr,...)
 	gameUsers[usr.host].coupons = gameUsers[usr.host].coupons or {}
 	local userC = gameUsers[usr.host].coupons
 	for i,v in ipairs({...}) do
@@ -1597,3 +1596,4 @@ if totalinv ~= 0 then sendmsg = "Total In Inventory: $"..nicenum(totalinv).." | 
 return sendmsg
 end
 add_cmd(inv, "inv",0,"checks inventory", false)
+return games

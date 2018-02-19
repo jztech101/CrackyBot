@@ -1,25 +1,11 @@
-local socket = require "socket"
-
+local socket = require("socket")
+local util = require("irc.util")
 local error = error
-local setmetatable = setmetatable
-local rawget = rawget
-local unpack = unpack
-local pairs = pairs
-local assert = assert
-local require = require
-local tonumber = tonumber
-local type = type
-local pcall = pcall
+local handlers = require("irc.handlers")
 
-local irc = {}
 local meta = {}
 meta.__index = meta
-_META = meta
-
-require "irc.util"
-require "irc.asyncoperations"
-require "irc.handlers"
-
+for k,v in pairs(require("irc.asyncoperations")) do meta[k] =v end
 local meta_preconnect = {}
 function meta_preconnect.__index(o, k)
 	local v = rawget(meta_preconnect, k)
@@ -30,16 +16,16 @@ function meta_preconnect.__index(o, k)
 	return v
 end
 
-function irc.new(data)
+function new(data)
 	local o = {
 		nick = assert(data.nick, "Field 'nick' is required");
 		username = data.username or "lua";
 		realname = data.realname or "Lua owns";
-		nickGenerator = data.nickGenerator or defaultNickGenerator;
+		nickGenerator = data.nickGenerator or util.defaultNickGenerator;
 		hooks = {};
 		track_users = true;
 	}
-	assert(checkNick(o.nick), "Erroneous nickname passed to irc.new")
+	assert(util.checkNick(o.nick), "Erroneous nickname passed to irc.new")
 	return setmetatable(o, meta_preconnect)
 end
 
@@ -172,7 +158,7 @@ function meta:think()
 		local line = getline(self, 3)
 		if line and #line > 0 then
 			if not self:invoke("OnRaw", line) then
-				self:handle(parse(line))
+				self:handle(util.parse(line))
 			end
 		else
 			break
@@ -180,7 +166,6 @@ function meta:think()
 	end
 end
 
-local handlers = handlers
 
 function meta:handle(prefix, cmd, params)
 	local handler = handlers[cmd]
@@ -231,4 +216,9 @@ function meta:topic(channel)
 	self:send("TOPIC %s", channel)
 end
 
-return irc
+return {
+	new = new;
+	color = util.color;
+	bold = util.bold;
+	underline = util.underline;
+}

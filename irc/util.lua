@@ -1,16 +1,6 @@
-local setmetatable = setmetatable
-local sub = string.sub
-local byte = string.byte
-local char = string.char
-local table = table
-local assert = assert
-local tostring = tostring
-local type = type
-local random = math.random
-
-local irc = {}
 --protocol parsing
-function irc.parse(line)
+local c = {}
+function c.parse(line)
 	local prefix
 	local lineStart = 1
 	if line:sub(1,1) == ":" then
@@ -49,25 +39,25 @@ function irc.parse(line)
 	return prefix, cmd, params
 end
 
-function irc.parseWhoAccess(acs)
+function c.parseWhoAccess(acs)
     return acs:match("([%+@]?)$")
 end
-function irc.parseNick(nick)
+function c.parseNick(nick)
 	local access, name = nick:match("^([%+@]*)(.+)$")
 	return parseAccess(access or ""), name
 end
 
-function irc.parsePrefix(prefix)
+function c.parsePrefix(prefix)
 	local user = {}
 	if prefix then
 		user.access, user.nick, user.username, user.host = prefix:match("^([%+@]*)(.+)!(.+)@(.+)$")
 		user.fullhost = prefix
 	end
-	user.access = parseAccess(user.access or "")
+	user.access = c.parseAccess(user.access or "")
 	return user
 end
 
-function irc.parseAccess(accessString)
+function c.parseAccess(accessString)
 	local access = {op = false, halfop = false, voice = false}
 	for c in accessString:gmatch(".") do
 		if     c == "@" then access.op = true
@@ -98,27 +88,27 @@ color = {
 	white = 16
 }
 
-local colByte = char(3)
+local colByte = string.char(3)
 setmetatable(color, {__call = function(_, text, colornum)
 	colornum = type(colornum) == "string" and assert(color[colornum], "Invalid color '"..colornum.."'") or colornum
 	return table.concat{colByte, tostring(colornum), text, colByte}
 end})
 
-local boldByte = char(2)
-function irc.bold(text)
+local boldByte = string.char(2)
+function c.bold(text)
 	return boldByte..text..boldByte
 end
 
-local underlineByte = char(31)
-function irc.underline(text)
+local underlineByte = string.char(31)
+function c.underline(text)
 	return underlineByte..text..underlineByte
 end
 
-function irc.checkNick(nick)
+function c.checkNick(nick)
 	return nick:find("^[a-zA-Z_%-%[|%]%^{|}`][a-zA-Z0-9_%-%[|%]%^{|}`]*$") ~= nil
 end
 
-function irc.defaultNickGenerator(nick)
+function c.defaultNickGenerator(nick)
 	-- LuaBot -> LuaCot -> LuaCou -> ...
 	-- We change a random charachter rather than appending to the
 	-- nickname as otherwise the new nick could exceed the ircd's
@@ -137,4 +127,4 @@ function irc.defaultNickGenerator(nick)
 	return nick
 end
 
-return irc
+return c

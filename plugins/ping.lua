@@ -1,5 +1,4 @@
-module("ping",package.seeall)
-
+local ping = {}
 local function ping(usr,chan,msg)
     return "pong"
 end
@@ -19,3 +18,4 @@ local function source(usr, chan, msg)
 	return "https://github.com/jztech101/CrackyBot"
 end
 add_cmd(source, "source", 0, "prints source of bot", true)
+return ping

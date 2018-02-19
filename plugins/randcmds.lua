@@ -1,5 +1,4 @@
-module("randcmds",package.seeall)
-
+local randcmds = {}
 local function shrug(usr, chan, msg)
     return "┻━┻ ︵ ¯\\_(ツ)_/¯ ︵ ┻━┻"
 end
@@ -49,3 +48,4 @@ add_cmd(age, "age",0, false, false)
 local function location(usr, chan, msg)
         return "The person in question's location is X miles away from you. What is X? I dunno. Some number I guess..?"  end
 add_cmd(location, "location",0, false, false)
+return randcmds
