@@ -210,14 +210,13 @@ local function kick(usr,chan,msg,args)
 		chan=args[1]
 	end
 	local nick = args[2] or msg
-	local user = getUserFromNick(nick)
-	if nick ~= usr.nick and user and user.host and getPerms(user.host,chan) > 100 then
-		return "Error: You can't kick admins"
-	elseif nick == irc.nick then
-		nick = usr.nick
-	end
+	if reason == "" then reason = "Your behavior is not conductive to the desired environment" end
 	checkPermissions(usr.host, "kick", chan, "kick")
-	ircSendRawQ("KICK "..chan.." "..nick.." :"..reason)
+	if string.match(nick, ",") then
+		for nic in nick:gmatch("([^,]+)") do kickx(usr, chan, nic, reason)end
+	else
+		kickx(usr, chan, nick, reason)
+	end
 end
 add_cmd(kick,"kick",10,"Kick a user, '/kick [<chan>] <username> [<reason>]'",true)
 
@@ -226,8 +225,16 @@ local function kickme(usr,chan,msg,args)
 end
 add_cmd(kickme,"kickme",0,"Places a 'kick me' sign on your back'",false)
 
+local function kickx(usr, chan, nick, reason)
+	if nick == irc.nick then
+		nick = usr.nick
+	end
+	ircSendRawQ("KICK "..chan.." "..nick.." :["..usr.nick.."] "..reason)
+end
+
 --KBAN
 local function kickban(usr,chan,msg,args)
+	if string.match(msg, ",") then return end
 	ban(usr,chan,msg,args)
 	local timercheck = 2
 	if isChan(args[1], false) then timercheck = 3 end
