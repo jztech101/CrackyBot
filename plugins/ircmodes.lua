@@ -190,7 +190,7 @@ local function ban(usr,chan,msg,args)
 	checkPermissions(usr.host, "ban", chan, "ban")
 	ircmodes.setMode(chan,"+b",host)
 	if unbanTimer then
-		addTimer(setMode[chan]["-b"][host],unbanTimer,chan)
+		addTimer(ircutils.setMode[chan]["-b"][host],unbanTimer,chan)
 	end
 end
 add_cmd(ban,"ban",25,"Ban a user, '/ban [<chan>] <username> [<time>]'",true)
@@ -246,7 +246,7 @@ end
 add_cmd(kickban,"kban",30,"Kick and ban user, '/kban [<chan>] <username> [<time>] [<reason>]'",true)
 
 --TOPIC
-local function invite(usr,chan,msg,args)
+local function topic(usr,chan,msg,args)
 	if not args[1] then error("No args") end
 	local topic = msg
 	if isChan(args[1], false) then
@@ -257,7 +257,7 @@ local function invite(usr,chan,msg,args)
 	checkPermissions(usr.host, "invite", chan, "invite")
 	ircSendRawQ("TOPIC "..chan.." :"..topic)
 end
-add_cmd(invite,"topic",30,"topic",true)
+add_cmd(topic,"topic",30,"topic",true)
 
 --INVITE
 local function invite(usr,chan,msg,args)
