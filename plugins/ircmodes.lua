@@ -245,18 +245,33 @@ local function kickban(usr,chan,msg,args)
 end
 add_cmd(kickban,"kban",30,"Kick and ban user, '/kban [<chan>] <username> [<time>] [<reason>]'",true)
 
---INVITE
+--TOPIC
 local function invite(usr,chan,msg,args)
 	if not args[1] then error("No args") end
-	if args[2] then
-		if not isChan(args[2], false) then
-			error("Not a channel")
+	local topic = msg
+	if isChan(args[1], false) then
+		local t={} for i=2,#args do table.insert(t,args[i]) end
+		topic=table.concat(t," ")
+		chan = args[1]
+	end
+	checkPermissions(usr.host, "invite", chan, "invite")
+	ircSendRawQ("TOPIC "..chan.." :"..topic)
+end
+add_cmd(invite,"topic",30,"topic",true)
+
+--INVITE
+local function invite(usr,chan,msg,args)
+	if not args[1] then args[2]=usr.nick end
+	if args[1] then
+		if not isChan(args[1], false) then
+			args[2]=args[1]
 		else
-			chan=args[2]
+			if not args[2] then args[2]=usr.nick end
+			chan=args[1]
 		end
 	end
 	checkPermissions(usr.host, "invite", chan, "invite")
-	ircSendRawQ("INVITE "..args[1].." "..chan)
+	ircSendRawQ("INVITE "..args[2].." :"..chan)
 end
 add_cmd(invite,"invite",50,"Invite someone to the channel, '/invite <user>'",true)
 
@@ -303,18 +318,6 @@ local function cycle(usr,chan,msg,args)
 end
 add_cmd(cycle,"cycle",101,"Make bot part and rejoin channel, '/cycle <chan>'",true)
 
---REMOVE a user (ninja)
-local function remove(usr,chan,msg,args)
-	if not args[1] then error("No args") end
-	if args[1] and isChan(args[1], false) then
-		chan = args[1]
-		table.remove(args, 1)
-	end
-	local nick = args[1]
-	table.remove(args, 1)
-	checkPermissions(usr.host, "remove", chan, "remove")
-	ircSendRawQ("REMOVE "..chan.." "..nick.." :"..table.concat(args, " "))
-	--ircSendRawQ("JOIN "..chan) --cycle doesn't work, so lets just let the autorejoin fix it
-end
-add_cmd(remove,"remove",50,"Forefully remove a user from a channel, '/remove [<chan>] <user> [<reason>]'",true, {"ninja"})
+
+
 return ircmodes
