@@ -145,7 +145,7 @@ local function quiet(usr,chan,msg,args)
 		unbanTimer = math.random(60,600)
 	end
 	if unbanTimer then
-		addTimer(setMode[chan]["-q"][host],unbanTimer,chan)
+		addTimer(ircmodes.setMode[chan]["-q"][host],unbanTimer,chan)
 		ircSendNoticeQ(usr.nick, nick.." has been quieted for "..unbanTimer.." seconds")
 	end
 end
