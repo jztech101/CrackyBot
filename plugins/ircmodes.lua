@@ -141,11 +141,8 @@ local function quiet(usr,chan,msg,args)
 	if host and host.host then host = "*!*@"..host.host else host = nick end
 	checkPermissions(usr.host, "quiet", chan, "quiet")
 	ircmodes.setMode(chan,"+q",host)
-	if not unbanTimer then
-		unbanTimer = math.random(60,600)
-	end
 	if unbanTimer then
-		addTimer(setMode[chan]["-q"][host],unbanTimer,chan)
+		addTimer(ircutils.setMode[chan]["-q"][host],unbanTimer,chan)
 		ircSendNoticeQ(usr.nick, nick.." has been quieted for "..unbanTimer.." seconds")
 	end
 end
