@@ -1189,7 +1189,7 @@ local function store(usr,chan,msg,args)
 				if gameUsers[usr.host].cash - cost >= 0 then
 					changeCash(usr, -cost)
 					addInv(usr, v, amt, true)
-					return "You bought "..nicenum(amt).." "..v.name.." for $"..cost
+					return "You bought "..nicenum(amt).." "..v.name.." for $"..nicenum(cost)
 				else
 					return "Not enough money!"
 				end
@@ -1246,7 +1246,7 @@ local function store(usr,chan,msg,args)
 			i=i+1
 		end
 		if sold then
-			return rstring.."for $"..totalSold
+			return rstring.."for $"..nicenum(totalSold)
 		else
 			return "You don't have that!"
 		end
@@ -1268,6 +1268,22 @@ local function store(usr,chan,msg,args)
 	end
 end
 add_cmd(store,"store",0,"Browse the store, '/store list/info/buy/sell'",true,{"shop"})
+
+local function buy(usr, chan, msg,args)
+table.insert(args, 1, "buy")
+return store(usr, chan, msg, args)
+end
+add_cmd(buy, "buy", 0, "buy", true)
+
+
+local function sell(usr, chan, msg,args) 
+table.insert(args, 1, "sell") 
+return store(usr, chan, msg, args) 
+end
+add_cmd(sell, "sell", 0, "sell", true)
+
+
+
 
 
 local charLookAlike={["0"]="O",["1"]="I",["2"]="Z",["3"]="8",["4"]="H",["5"]="S",["6"]="G",["7"]="Z",["8"]="3",["9"]="6",
