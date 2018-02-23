@@ -142,7 +142,7 @@ local function quiet(usr,chan,msg,args)
 	checkPermissions(usr.host, "quiet", chan, "quiet")
 	ircmodes.setMode(chan,"+q",host)
 	if unbanTimer then
-		addTimer(ircutils.setMode[chan]["-q"][host],unbanTimer,chan)
+		addTimer(ircmodes.setMode[chan]["-q"][host],unbanTimer,chan)
 		ircSendNoticeQ(usr.nick, nick.." has been quieted for "..unbanTimer.." seconds")
 	end
 end
@@ -187,7 +187,7 @@ local function ban(usr,chan,msg,args)
 	checkPermissions(usr.host, "ban", chan, "ban")
 	ircmodes.setMode(chan,"+b",host)
 	if unbanTimer then
-		addTimer(ircutils.setMode[chan]["-b"][host],unbanTimer,chan)
+		addTimer(ircmodes.setMode[chan]["-b"][host],unbanTimer,chan)
 	end
 end
 add_cmd(ban,"ban",25,"Ban a user, '/ban [<chan>] <username> [<time>]'",true)
