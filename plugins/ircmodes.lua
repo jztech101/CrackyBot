@@ -196,6 +196,14 @@ end
 add_cmd(ban,"ban",25,"Ban a user, '/ban [<chan>] <username> [<time>]'",true)
 
 --KICK
+
+local function kickx(usr, chan, nick, reason)
+	if nick == irc.nick then
+		nick = usr.nick
+	end
+	ircSendRawQ("KICK "..chan.." "..nick.." :["..usr.nick.."] "..reason)
+end
+
 local function kick(usr,chan,msg,args)
 	if not args[1] then error("No args") end
 	local reason = ""
@@ -225,12 +233,6 @@ local function kickme(usr,chan,msg,args)
 end
 add_cmd(kickme,"kickme",0,"Places a 'kick me' sign on your back'",false)
 
-local function kickx(usr, chan, nick, reason)
-	if nick == irc.nick then
-		nick = usr.nick
-	end
-	ircSendRawQ("KICK "..chan.." "..nick.." :["..usr.nick.."] "..reason)
-end
 
 --KBAN
 local function kickban(usr,chan,msg,args)
