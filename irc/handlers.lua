@@ -22,6 +22,10 @@ handlers["NOTICE"] = function(o, prefix, channel, message)
 	o:invoke("OnNotice", util.parsePrefix(prefix), channel, message)
 end
 
+handlers["INVITE"] = function(o, prefix, botnick, message)
+        o:invoke("OnInvite",util.parsePrefix(prefix),  message)
+end
+
 handlers["JOIN"] = function(o, prefix, channel)
 	local user = util.parsePrefix(prefix)
 	if o.track_users then
