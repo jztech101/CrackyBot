@@ -448,7 +448,7 @@ pcall(irc.unhook, irc, "OnCTCP", "ctcp1")
 irc:hook("OnCTCP","ctcp1",onCTCP)
 
 local function onInvite(usr, msg)
-       ircSendChatQ(config.logchannel, "[INVITE] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": " .. tostring(msg))
+       ircSendChatQ(config.logchannel, "[Invite] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": " .. tostring(msg))
 end
 pcall(irc.unhook, irc, "OnInvite", "invite1")
 irc:hook("OnInvite","invite1", onInvite)
