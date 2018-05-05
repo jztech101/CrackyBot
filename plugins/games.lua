@@ -1,3 +1,4 @@
+
 local filters = require("plugins.filters")
 local games = {}
 local function loadUsers()
@@ -1613,4 +1614,14 @@ if totalinv ~= 0 then sendmsg = "Total In Inventory: $"..nicenum(totalinv).." | 
 return sendmsg
 end
 add_cmd(inv, "inv",0,"checks inventory", false)
+
+local function transfer(usr, chan, msg, args)
+if not gameUsers[args[1]] then return "Invalid Hostmask" end
+local user = getUserFromNick(args[2])
+if not user then return "Invalid User" end
+gameUsers[user.host] = gameUsers[args[1]]
+gameUsers[args[1]] = nil
+return "Transferred Cash and Items from "..args[1].." to "..user.host
+end
+add_cmd(transfer, "transfer", 101, "transfer cash and items from old host to new user", false)
 return games
