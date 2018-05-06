@@ -28,13 +28,13 @@ add_cmd(poke,"poke",0,false,false)
 local function sneaky(usr,chan,msg)
 	return "You found me!"
 end
-add_cmd(sneaky,"./",0,nil,false)
+add_cmd(sneaky,".",0,nil,false)
 
 local function sneaky2(usr,chan,msg)
 	ircSendChatQ(usr.nick,"1 point gained")
 	return nil
 end
-add_cmd(sneaky2,"./moo",0,nil,false)
+add_cmd(sneaky2,".moo",0,nil,false)
 
 local function time(usr, chan, msg) 
         return "Time for you to get a watch!"
@@ -48,4 +48,10 @@ add_cmd(age, "age",0, false, false)
 local function location(usr, chan, msg)
         return "The person in question's location is X miles away from you. What is X? I dunno. Some number I guess..?"  end
 add_cmd(location, "location",0, false, false)
+
+local function slap(usr, chan, msg)
+        nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
+        ircSendChatQ(chan, "\001ACTION slaps " + nick + " with her bare hands\001", true) end
+add_cmd(slap, "slap",0, false, false)
 return randcmds
+
