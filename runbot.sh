@@ -1,5 +1,4 @@
 #!/bin/bash
-
 function ctrl_c() {
 	echo -e '\nExiting on SIGINT / Ctrl-C...'
 	exit

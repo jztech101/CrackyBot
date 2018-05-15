@@ -13,3 +13,4 @@ lua/*
 mime/*
 socket/*
 .idea/*
+start.sh
