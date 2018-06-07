@@ -20,6 +20,12 @@ local function cookie(usr,chan,msg)
     ircSendChatQ(chan, "\001ACTION gives " + nick +" a cookie\001", true) end
 add_cmd(cookie,"cookie",0,false,false)
 
+local function eat(usr,chan,msg)
+    nick = usr.nick
+    if not (msg == "" or msg == nil) then nick = msg end
+    ircSendChatQ(chan, "\001ACTION eats " + nick +" for breakfast\001", true) end
+add_cmd(eat,"eat",0,false,false)
+
 local function poke(usr,chan,msg) 
     nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
     ircSendChatQ(chan, "\001ACTION pokes " + nick +"\001", true) end
