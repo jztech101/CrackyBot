@@ -88,5 +88,10 @@ local function slap(usr, chan, msg)
         nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
         ircSendChatQ(chan, "\001ACTION slaps " + nick + " with her bare hands\001", true) end
 add_cmd(slap, "slap",0, false, false)
-return randcmds
 
+local function github(usr, chan, msg)
+        nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
+        return nick..": OH! Microsoft bought Github. I should totally switch to... wait. WHY? Because otherwise I support FOSS terrorism? OH FUCK OFF. Oh because Microsoft spies on you? Shit, if I gave a shit about that I wouldn\'t be on the internet. OOOH PATENT EXTORTION! I mean not like, that\'s a basic part of the corporate world or anything...., like is patent wars/DMCA and other shit new to you?" 
+end
+add_cmd(github, "github", 0, false, false)
+return randcmds
