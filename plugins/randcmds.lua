@@ -30,6 +30,15 @@ local function compat(usr, chan, msg, args)
     return nick1.." and "..nick2.." are "..math.random(1,100).."% compatible"
 end
 add_cmd(compat, "compat", 0, false, false)
+
+local function chance(usr, chan, msg)
+    math.randomseed(os.time())
+    math.random(); math.random(); math.random()
+    chance = "There is a "..math.random(1, 100).."% chance"
+    if not (msg == "" or msg == nil) then return  chance.." that "..msg else return chance end
+end
+add_cmd(chance, "chance", 0, false, false)
+
 local function love(usr, chan, msg, args)
     nick1 = usr.nick
     nick2 = usr.nick
