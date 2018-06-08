@@ -20,7 +20,16 @@ local function cookie(usr,chan,msg)
     ircSendChatQ(chan, "\001ACTION gives " + nick +" a cookie\001", true) 
 end
 add_cmd(cookie,"cookie",0,false,false)
-
+local function compat(usr, chan, msg, args)
+    math.randomseed(os.time()) 
+    math.random(); math.random(); math.random()
+    nick1 = usr.nick
+    nick2 = usr.nick
+    if args[1] then nick1 = args[1] end
+    if args[2] then nick2 = args[2] end
+    return nick1.." and "..nick2.." are "..math.random(1,100).."% compatible"
+end
+add_cmd(compat, "compat", 0, false, false)
 local function love(usr, chan, msg, args)
     nick1 = usr.nick
     nick2 = usr.nick
