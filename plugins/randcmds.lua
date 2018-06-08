@@ -17,9 +17,18 @@ add_cmd(potato, "potato", 0, nil, false)
 local function cookie(usr,chan,msg) 
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
-    ircSendChatQ(chan, "\001ACTION gives " + nick +" a cookie\001", true) end
+    ircSendChatQ(chan, "\001ACTION gives " + nick +" a cookie\001", true) 
+end
 add_cmd(cookie,"cookie",0,false,false)
 
+local function love(usr, chan, msg, args)
+    nick1 = usr.nick
+    nick2 = usr.nick
+    if args[1] then nick1 = args[1] end
+    if args[2] then nick2 = args[2] end
+    return nick1.." and "..nick2.." sitting in a tree K-I-S-S-I-N-G, first comes love, then comes marriage, then comes the baby in the baby carriage"
+end
+add_cmd(love, "love",0, false, false)
 local function eat(usr,chan,msg)
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
