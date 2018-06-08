@@ -50,7 +50,9 @@ add_cmd(love, "love",0, false, false)
 local function eat(usr,chan,msg)
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
-    ircSendChatQ(chan, "\001ACTION eats " + nick +" for breakfast\001", true) end
+    ircSendChatQ(chan, "\001ACTION eats " + nick +" for breakfast\001", true) 
+    return "mmhmm delicious"
+end
 add_cmd(eat,"eat",0,false,false)
 
 local function poke(usr,chan,msg) 
