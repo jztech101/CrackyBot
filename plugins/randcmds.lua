@@ -49,9 +49,15 @@ end
 add_cmd(love, "love",0, false, false)
 local function eat(usr,chan,msg)
     nick = usr.nick
-    if not (msg == "" or msg == nil) then nick = msg end
-    ircSendChatQ(chan, "\001ACTION eats " + nick +" for breakfast\001", true) 
-    return "mmhmm delicious"
+    if not (msg == "" or msg == nil) then nick = msg end 
+    math.randomseed(os.time())
+    math.random(); math.random(); math.random()
+    x = math.random(1,100)
+    meal = "breakfast"
+    if x > 66 then meal = "lunch" elseif x > 33 then meal = "dinner" end
+    ircSendChatQ(chan, "\001ACTION eats " + nick +" for "..meal.." \001", true)
+    x = math.random(1,100)
+    if x > 50 then return "mmhmm delicious" else return "eww nasty" end
 end
 add_cmd(eat,"eat",0,false,false)
 
