@@ -65,6 +65,7 @@ add_cmd(suicide,"suicide",101,"Quits the bot",true,{"quit","die"})
 --PING
 local function raw(usr, chan, msg)
         ircSendRawQ(msg)
+        return "Message Sent to Server"
 end
 add_cmd(raw, "raw", 101, "raw", false)
 local function act(usr,chan,msg)
@@ -130,23 +131,4 @@ local function reload(usr,chan,msg,args)
 end
 add_cmd(reload,"load",100,"Loads file(s), '/load [<file1>] [<files...>]', Only admin can specify file names.",true,{"reload"})
 
---LUA full access
-local function lua2(usr,chan,msg,args)
-	local e,err = loadstring(msg, "..")
-	if e then
-		debug.sethook(infhook,"l")
-		local s,r = pcall(e)
-		debug.sethook()
-		stepcount=0
-		if s then
-			local str = tostring(r)
-			return str:gsub("[\r\n]"," ")
-		else
-			return "ERROR: " .. r
-		end
-		return
-	end
-	return "ERROR: " .. err
-end
-add_cmd(lua2,"..",101,"Runs full lua code, '/lua <code>'",false)
 return admin
