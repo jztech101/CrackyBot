@@ -114,12 +114,14 @@ end
 add_cmd(devoice,"devoice",10,"DeVoice a user, '/devoice [<chan>] <username>'",true)
 
 local function getMaskFromNick(nick)
+	        
+	if string.find(nick,"!") or string.find(nick, "@") or string.find(nick, ":") then return nick end
 	user = getUserFromNick(nick)
 	if user then
 		ident = user.username
 		host = user.host
 		if not (string.sub(ident, 1,1) == ("~")) then return "*!"..ident.."@"..host else return "*!*@"..host end
-	end
+	else return nick end
 end
 
 
