@@ -118,7 +118,7 @@ local function getMaskFromNick(nick)
 	if user then
 		ident = user.username
 		host = user.host
-		if ident.startsWith("~") then return "*!"..ident.."@"..host else return "*!*@"..host end
+		if not (string.sub(ident, 1,1) == ("~")) then return "*!"..ident.."@"..host else return "*!*@"..host end
 	end
 end
 
@@ -136,7 +136,7 @@ local function unquiet(usr,chan,msg,args)
 		nick = args[1]
 		host = getMaskFromNick(args[1])
 	end
-	host = getUserFromNick(nick)
+	host = getMaskFromNick(nick)
 	checkPermissions(usr.host, "unquiet", chan, "unquiet")
 	channeladmin.setMode(chan,"-q",host)
 end
