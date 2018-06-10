@@ -77,6 +77,18 @@ end
 add_cmd(ispregnant, "ispregnant", 0 , false, false)
 
 
+local function gender(usr, chan, msg) 
+    nick = usr.nick
+    if not (msg == "" or msg == nil) then nick = msg end
+    math.randomseed(os.time())
+    math.random(); math.random(); math.random()
+   x = math.random(1,100)
+   gender = "a female"
+   if x > 90 then gender = "an attack helicopter" elseif x > 45 then gender = "a male" end
+   return nick.." is "..gender
+end
+add_cmd(gender, "gender", 0, false, false)
+
 local function poke(usr,chan,msg) 
     nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
     ircSendChatQ(chan, "\001ACTION pokes " + nick +"\001", true) end
