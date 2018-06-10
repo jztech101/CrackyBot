@@ -61,6 +61,22 @@ local function eat(usr,chan,msg)
 end
 add_cmd(eat,"eat",0,false,false)
 
+local function ispregnant(usr, chan, msg)
+    nick = usr.nick
+    if not (msg == "" or msg == nil) then nick = msg end
+    math.randomseed(os.time())
+    math.random(); math.random(); math.random()
+    x = math.random(1,100)
+    preggy = false
+    if x > 50 then preggy = true end
+    x = math.random(10,90)
+    months = 1
+    if preggy then months = x/10 end
+    if preggy then return nick.." is "..months.." months pregnant" else return nick.." is not pregnant" end
+end
+add_cmd(ispregnant, "ispregnant", 0 , false, false)
+
+
 local function poke(usr,chan,msg) 
     nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
     ircSendChatQ(chan, "\001ACTION pokes " + nick +"\001", true) end
