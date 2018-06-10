@@ -113,6 +113,16 @@ local function devoice(usr,chan,msg,args)
 end
 add_cmd(devoice,"devoice",10,"DeVoice a user, '/devoice [<chan>] <username>'",true)
 
+local function getMaskFromNick(nick)
+	user = getUserFromNick(nick)
+	if user then
+		ident = user.username
+		host = user.host
+		if ident.startsWith("~") then return "*!"..ident.."@"..host else return "*!*@"..host end
+	end
+end
+
+
 --UNQUIET
 local function unquiet(usr,chan,msg,args)
 	if not args[1] then error("No args") end
@@ -124,7 +134,7 @@ local function unquiet(usr,chan,msg,args)
 		nick = args[2]
 	else
 		nick = args[1]
-		host = getUserFromNick(args[1])
+		host = getMaskFromNick(args[1])
 	end
 	host = getUserFromNick(nick)
 	checkPermissions(usr.host, "unquiet", chan, "unquiet")
@@ -146,7 +156,7 @@ local function quiet(usr,chan,msg,args)
 		nick = args[1]
 		unbanTimer = tonumber(args[2])
 	end
-	local host = getUserFromNick(nick)
+	local host = getMaskFromNick(nick)
 	checkPermissions(usr.host, "quiet", chan, "quiet")
 	channeladmin.setMode(chan,"+q",host)
 	if unbanTimer then
@@ -168,7 +178,7 @@ local function unban(usr,chan,msg,args)
 	else
 		nick = args[1]
 	end
-	host = getUserFromNick(nick)
+	host = getMaskFromNick(nick)
 	checkPermissions(usr.host, "unban", chan, "unban")
 	channeladmin.setMode(chan,"-b",host)
 end
@@ -189,7 +199,7 @@ local function ban(usr,chan,msg,args)
 		nick = args[1]
 		unbanTimer = tonumber(args[2])
 	end
-	host = getUserFromNick(nick)
+	host = getMaskFromNick(nick)
 	checkPermissions(usr.host, "ban", chan, "ban")
 	channeladmin.setMode(chan,"+b",host)
 	if unbanTimer then
