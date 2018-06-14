@@ -21,7 +21,7 @@ local function cookie(usr,chan,msg)
 end
 add_cmd(cookie,"cookie",0,false,false)
 local function compat(usr, chan, msg, args)
-    math.randomseed(os.time()) 
+    math.randomseed(os.clock()*100000000000) 
     math.random(); math.random(); math.random()
     nick1 = usr.nick
     nick2 = usr.nick
@@ -32,7 +32,7 @@ end
 add_cmd(compat, "compat", 0, false, false)
 
 local function chance(usr, chan, msg)
-    math.randomseed(os.time())
+    math.randomseed(os.clock()*100000000000)
     math.random(); math.random(); math.random()
     chance = "There is a "..math.random(1, 100).."% chance"
     if not (msg == "" or msg == nil) then return  chance.." that "..msg else return chance end
@@ -50,7 +50,7 @@ add_cmd(love, "love",0, false, false)
 local function eat(usr,chan,msg)
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end 
-    math.randomseed(os.time())
+    math.randomseed(os.clock()*100000000000)
     math.random(); math.random(); math.random()
     x = math.random(1,100)
     meal = "breakfast"
@@ -64,7 +64,7 @@ add_cmd(eat,"eat",0,false,false)
 local function ispregnant(usr, chan, msg)
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
-    math.randomseed(os.time())
+    math.randomseed(os.clock()*100000000000)
     math.random(); math.random(); math.random()
     x = math.random(1,100)
     preggy = false
@@ -79,13 +79,13 @@ add_cmd(ispregnant, "ispregnant", 0 , false, false)
 local function ignoreometer(usr, chan, msg)
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
-    math.randomseed(os.time())
+    math.randomseed(os.clock()*100000000000)
     math.random(); math.random(); math.random()
     x = math.random(1,100)
     return "ignore-o-meter for "..nick.." is at "..x.."%"
 end add_cmd(ignoreometer, "ignoreometer", 0, false, false) 
 local function rr(usr, chan, msg) 
-    math.randomseed(os.time())
+    math.randomseed(os.clock()*100000000000)
     math.random(); math.random(); math.random()
     x = math.random(1,100)
     if x > 70 then
@@ -100,7 +100,7 @@ add_cmd(rr,"rr",0,false,false)
 local function gender(usr, chan, msg) 
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
-    math.randomseed(os.time())
+    math.randomseed(os.clock()*100000000000)
     math.random(); math.random(); math.random()
    x = math.random(1,100)
    gender = "a female"
