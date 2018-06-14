@@ -83,8 +83,19 @@ local function ignoreometer(usr, chan, msg)
     math.random(); math.random(); math.random()
     x = math.random(1,100)
     return "ignore-o-meter for "..nick.." is at "..x.."%"
+end add_cmd(ignoreometer, "ignoreometer", 0, false, false) 
+local function rr(usr, chan, msg) 
+    math.randomseed(os.time())
+    math.random(); math.random(); math.random()
+    x = math.random(1,100)
+    if x > 70 then
+        ircSendRawQ("KICK "..chan.." "..usr.nick.." :BANG! ")
+        ircSendChatQ(chan, "\001ACTION reloads\001", true)
+    else
+        return "*click*"
+    end
 end
-add_cmd(ignoreometer, "ignoreometer", 0, false, false)
+add_cmd(rr,"rr",0,false,false)
 
 local function gender(usr, chan, msg) 
     nick = usr.nick
