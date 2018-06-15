@@ -148,4 +148,12 @@ local function github(usr, chan, msg)
         return nick..": OH! Microsoft bought Github. I should totally switch to... wait. WHY? Because otherwise I support FOSS terrorism? OH FUCK OFF. Oh because Microsoft spies on you? Shit, if I gave a shit about that I wouldn\'t be on the internet. OOOH PATENT EXTORTION! I mean not like, that\'s a basic part of the corporate world or anything...., like is patent wars/DMCA and other shit new to you?" 
 end
 add_cmd(github, "github", 0, false, false)
+
+local function roll(usr, chan, msg)
+       math.randomseed(os.clock()*100000000000)
+       math.random(); math.random(); math.random()
+       return "You roll a "..math.random(1,6)
+end
+add_cmd(roll, "roll",0, false, false)
+
 return randcmds
