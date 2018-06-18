@@ -14,6 +14,10 @@ local function potato(usr, chan, msg)
 end
 add_cmd(potato, "potato", 0, nil, false)
 
+local function burn(usr, chan, msg)
+    ircSendChatQ(chan, "\001ACTION watches the world burn\001",true)
+end
+add_cmd(burn, "burn", 0, nil, false)
 local function cookie(usr,chan,msg) 
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
