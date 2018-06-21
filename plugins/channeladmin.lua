@@ -153,18 +153,12 @@ local function quiet(usr,chan,msg,args)
 		chan=args[1]
 		if not args[2] then error("Missing target") end
 		nick = args[2]
-		unbanTimer = tonumber(args[3])
 	else
 		nick = args[1]
-		unbanTimer = tonumber(args[2])
 	end
 	local host = getMaskFromNick(nick)
 	checkPermissions(usr.host, "quiet", chan, "quiet")
 	channeladmin.setMode(chan,"+q",host)
-	if unbanTimer then
-		addTimer(channeladmin.setMode[chan]["-q"][host],unbanTimer,chan)
-		ircSendNoticeQ(usr.nick, nick.." has been quieted for "..unbanTimer.." seconds")
-	end
 end
 add_cmd(quiet,"quiet",20,"Quiet a user, '/quiet [<chan>] <host/username> [<time>]. If no time is specified, picks a random time between 60 and 600 seconds.'",true,{"stab"})
 
@@ -196,17 +190,12 @@ local function ban(usr,chan,msg,args)
 		chan=args[1]
 		if not args[2] then error("Missing target") end
 		nick = args[2]
-		unbanTimer = tonumber(args[3])
 	else
 		nick = args[1]
-		unbanTimer = tonumber(args[2])
 	end
 	host = getMaskFromNick(nick)
 	checkPermissions(usr.host, "ban", chan, "ban")
 	channeladmin.setMode(chan,"+b",host)
-	if unbanTimer then
-		addTimer(channeladmin.setMode[chan]["-b"][host],unbanTimer,chan)
-	end
 end
 add_cmd(ban,"ban",25,"Ban a user, '/ban [<chan>] <username> [<time>]'",true)
 
@@ -253,9 +242,6 @@ add_cmd(kickme,"kickme",0,"Places a 'kick me' sign on your back'",false)
 local function kickban(usr,chan,msg,args)
 	if string.match(msg, ",") then return end
 	ban(usr,chan,msg,args)
-	local timercheck = 2
-	if isChan(args[1], false) then timercheck = 3 end
-	if tonumber(timercheck) then table.remove(args, timercheck) end
 	kick(usr,chan,msg,args)
 end
 add_cmd(kickban,"kban",30,"Kick and ban user, '/kban [<chan>] <username> [<time>] [<reason>]'",true)
