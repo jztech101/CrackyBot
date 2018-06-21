@@ -663,7 +663,7 @@ local itemUses = {
 					return nil
 				end
 			end
-			return str.."(-1 p/otato")
+			return str.." (-1 potato)"
 		end
 	end,
 	--gold
