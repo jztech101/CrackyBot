@@ -565,7 +565,7 @@ local itemUses = {
 			return "You get paid $1000000 to burn the water by a mysterious man with horns"..changeCash(usr,1000000)
 		elseif rnd < 11 then
 			local amt = ((rnd-5)^3)*100000+1
-			return "You discover that the holy water cures cancer. You sell it for $"..amt..changeCash(usr,amt)
+			return "You discover that the holy water cures cancer. You sell it for $"..nicenum(amt)..changeCash(usr,amt)
 		else
 			addInv(usr, storeInventory["cube"], 1)
 			return "The water freezes (+1 cube)"
@@ -1134,9 +1134,9 @@ if args and args[1] then
         end
 end
 	if args then
-		if args[1]=="stats" then
-			return "WinStreak: "..gameUsers[usr.host].maxWinStreak.." LoseStreak: "..gameUsers[usr.host].maxLoseStreak
-		end
+		--if args[1]=="stats" then
+		--	return "WinStreak: "..gameUsers[usr.host].maxWinStreak.." LoseStreak: "..gameUsers[usr.host].maxLoseStreak
+		--end
 		if args[1]=="all" then
 			return myCash(usr,true)
 		end
@@ -1347,13 +1347,17 @@ return store(usr, chan, msg, args)
 end
 add_cmd(buy, "buy", 0, "buy", true)
 
-
 local function sell(usr, chan, msg,args) 
 table.insert(args, 1, "sell") 
 return store(usr, chan, msg, args) 
 end
 add_cmd(sell, "sell", 0, "sell", true)
 
+local function sellall(usr, chan, msg,args)
+table.insert(args, 1, "sellall")
+return store(usr, chan, msg, args)
+end
+add_cmd(sellall, "sellall", 0, "sellall", true)
 
 
 
