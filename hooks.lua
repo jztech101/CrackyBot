@@ -398,7 +398,7 @@ irc:hook("NameList","doWho",doWho)
 local function kickCheck(chan,kicked,usr,reason)
     if kicked==user.nick then
 	if config.logchannel then
-            ircSendChatQ(config.logchannel, "[KICK] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(chan)..") "..tostring(reason))
+            ircSendChatQ(config.logchannel, "[Kick] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(chan)..") "..tostring(reason))
         end 
     end
 end
@@ -408,7 +408,7 @@ irc:hook("OnKick","kickCheck",kickCheck)
 local function partCheck(usr,chan,reason)
     if usr.nick==user.nick then
 	if config.logchannel then
-            ircSendChatQ(config.logchannel, "[PART] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(chan)..") "..tostring(reason))
+            ircSendChatQ(config.logchannel, "[Part] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(chan)..") "..tostring(reason))
         end 
     end
 end
