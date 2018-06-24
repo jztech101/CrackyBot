@@ -1121,13 +1121,11 @@ local function myMoney(usr,chan,msg,args)
            usr = user
         end
     end
-	if all then
-		local cash = 0
-		for k,v in pairs(gameUsers[usr.host].inventory or {}) do
-			cash = cash+ (v.cost*v.amount)
-		end
-	end
-	return "In Cash: $"..nicenum(gameUsers[usr.host].cash)..", In Inventory: $"..nicenum(cash)..", Total: $"..nicenum(cash+gameUsers[usr.host].cash)
+    local cash = 0
+    for k,v in pairs(gameUsers[usr.host].inventory or {}) do
+        cash = cash+ (v.cost*v.amount)
+    end
+    return "In Cash: $"..nicenum(gameUsers[usr.host].cash).." | In Inventory: $"..nicenum(cash).." | Total: $"..nicenum(cash+gameUsers[usr.host].cash)
 end
 add_cmd(myMoney,"cash",0,"Current balance of a user, '/cash [stats]', Sending stats will show some saved stats.",true,{"money"})
 
@@ -1138,7 +1136,7 @@ local function statss(usr, chan, msg, args)
            usr = user
         end
     end
-    return "WinStreak: "..gameUsers[usr.host].maxWinStreak.." LoseStreak: "..gameUsers[usr.host].maxLoseStreak
+    return "WinStreak: "..gameUsers[usr.host].maxWinStreak.." | LoseStreak: "..gameUsers[usr.host].maxLoseStreak
 end
 add_cmd(statss, "stats", 0, "stats", true)
 --GIVE
