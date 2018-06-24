@@ -1028,17 +1028,6 @@ local function useItem(usr,chan,msg,args)
 end
 add_cmd(useItem,"use",0,"Use an item, '/use <item>', Find out what all the items can do!",true)
 
---User cash
-local function myCash(usr,all)
-	if all then
-		local cash = gameUsers[usr.host].cash
-		for k,v in pairs(gameUsers[usr.host].inventory or {}) do
-			cash = cash+ (v.cost*v.amount)
-		end
-		return "Total Including Items: $"..nicenum(cash)
-	end
-	return "Total In Cash: $"..nicenum(gameUsers[usr.host].cash)
-end
 --give money
 local function give(fromHost,toHost,amt)
 	if gameUsers[fromHost].cash-amt <= 10000 then
@@ -1126,24 +1115,32 @@ end
 
 --GAME command hooks --CASH 
 local function myMoney(usr,chan,msg,args) 
-if args and args[1] then
+    if args and args[1] then
         local user = getUserFromNick(args[1])
         if user and gameUsers[user.host] then
            usr = user
-           if args[2] then args[1] = args[2]  end  
         end
-end
-	if args then
-		--if args[1]=="stats" then
-		--	return "WinStreak: "..gameUsers[usr.host].maxWinStreak.." LoseStreak: "..gameUsers[usr.host].maxLoseStreak
-		--end
-		if args[1]=="all" then
-			return myCash(usr,true)
+    end
+	if all then
+		local cash = 0
+		for k,v in pairs(gameUsers[usr.host].inventory or {}) do
+			cash = cash+ (v.cost*v.amount)
 		end
 	end
-	return myCash(usr)
+	return "In Cash: $"..nicenum(gameUsers[usr.host].cash)..", In Inventory: $"..nicenum(cash)..", Total: $"..nicenum(cash+gameUsers[usr.host].cash)
 end
 add_cmd(myMoney,"cash",0,"Current balance of a user, '/cash [stats]', Sending stats will show some saved stats.",true,{"money"})
+
+local function statss(usr, chan, msg, args)
+    if args and args[1] then
+        local user = getUserFromNick(args[1])
+        if user and gameUsers[user.host] then
+           usr = user
+        end
+    end
+    return "WinStreak: "..gameUsers[usr.host].maxWinStreak.." LoseStreak: "..gameUsers[usr.host].maxLoseStreak
+end
+add_cmd(statss, "stats", 0, "stats", true)
 --GIVE
 local function giveMon(usr,chan,msg,args)
 	if not args[2] then return "Usage: '/give <username> <amount>'" end
