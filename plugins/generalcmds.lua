@@ -1,52 +1,5 @@
 local generalcmds = {}
 --LIST
-local function list(usr,chan,msg,args)
-	local perm,chanPerm = tonumber(args[1]) or getPerms(usr.host), not tonumber(args[1]) and getPerms(usr.host,chan)
-	local t = {}
-	local cmdcount=0
-	for k,v in pairs(commands) do
-		if (chanPerm or perm)>=getCommandPerms(k, chan) and commands[k].show then
-			cmdcount=cmdcount+1
-			t[cmdcount]=k
-		end
-	end
-	table.sort(t,function(x,y)return x<y end)
-	return "Commands("..perm..(chanPerm and perm~=chanPerm and ":"..chanPerm or "").."): " .. table.concat(t,", ")
-end
-add_cmd(list,"list",0,"Lists commands for the specified level, or your own, '/list [<level>]'",true,{"ls","commands"})
---hostmask
-local function getHost(usr,chan,msg,args)
-	if not args[1] then return usr.host end
-	local user = getUserFromNick(args[1])
-	if not user then
-		return "Invalid User"
-	end
-	return user.host
-end
-add_cmd(getHost,"host",0,"The host for a user, '/host <name>' Use /hostmask for full hostmask",false)
-
-local function getHostmask(usr,chan,msg,args)
-	if not args[1] then return usr.fullhost end
-	local user = getUserFromNick(args[1])
-	if not user then
-		return "Invalid User"
-	end
-	return user.fullhost
-end
-add_cmd(getHostmask,"hostmask",0,"The hostmask for a user, '/hostmask <name>' Use /host for short host",false)
-
---username, for nesting
-local function getName(usr,chan,msg,args)
-	return usr.nick
-end
-add_cmd(getName,"nick",0,"Your nick, '/nick'",false)
-
---channel name, for nesting
-local function getChan(usr,chan,msg,args)
-	return chan
-end
-add_cmd(getChan,"chan",0,"The current channel, '/chan'",false)
-
 --HELP
 local function help(usr,chan,msg)
 	msg = msg or "help"
@@ -96,16 +49,6 @@ local function timer(usr,chan,msg,args)
 	end
 end
 add_cmd(timer,"timer",0,"Time until a print is done, '/timer <time(seconds)> <text>'",true)
-
---BUG, report something to me in a file
-local function rbug(usr,chan,msg,args)
-	if not msg then error("No msg") end
-	local f = io.open("bug.txt","a")
-	f:write("["..os.date().."] ".. usr.host..": "..msg.."\r\n")
-	f:close()
-	return "Reported bug"
-end
-add_cmd(rbug,"bug",0,"Report something to "..config.owner.nick..", '/bug <msg>'",true)
 
 --SEEN, display last message by a user
 local function seen(usr,chan,msg,args)
