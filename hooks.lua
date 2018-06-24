@@ -395,31 +395,22 @@ end
 pcall(irc.unhook,irc,"NameList","doWho")
 irc:hook("NameList","doWho",doWho)
 
---auto rejoin
 local function kickCheck(chan,kicked,usr,reason)
-	if kicked==user.nick then
-		print("Kicked from "..chan)
-		ircSendRawQ("JOIN "..chan)
-	else
-		print(kicked.." was Kicked from "..chan)
-	end
+    if kicked==user.nick then
+	if config.logchannel then
+            ircSendChatQ(config.logchannel, "[KICK] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(chan)..") "..tostring(reason))
+        end 
+    end
 end
 pcall(irc.unhook,irc,"OnKick","kickCheck")
 irc:hook("OnKick","kickCheck",kickCheck)
 
---auto rejoin
-expectedPart = ""
 local function partCheck(usr,chan,reason)
-	if usr.nick==user.nick then
-		print("Parted from "..chan)
-		if expectedPart~=chan then
-			ircSendRawQ("JOIN "..chan)
-		else 
-			expectedPart=""
-		end
-	else
-		print(usr.nick.." Parted from "..chan)
-	end
+    if usr.nick==user.nick then
+	if config.logchannel then
+            ircSendChatQ(config.logchannel, "[PART] ".. tostring(usr.nick.."!"..usr.username.."@"..usr.host) .. ": ("..tostring(chan)..") "..tostring(reason))
+        end 
+    end
 end
 pcall(irc.unhook,irc,"OnPart","partCheck")
 irc:hook("OnPart","partCheck",partCheck)
