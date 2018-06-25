@@ -451,7 +451,7 @@ irc:hook("OnInvite","invite1", onInvite)
 
 local function onPing(usr, channel, msg)
 if channel ~= user.nick and channel ~= nil and string.find(string.lower(msg), '.*'..string.lower(user.nick)..'.*') ~= nil then
-               if config.logchannel then                          
+               if config.logchannel and channel ~= config.logchannel then                          
                         ircSendChatQ(config.logchannel, "[Ping] "..usr.nick.."!"..usr.username.."@"..usr.host..": ("..channel..") "..msg)
                 end
         end
