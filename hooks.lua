@@ -370,13 +370,16 @@ if not prefix then prefix = config.prefix end
 	-- relay new Crackybot commits into #powder-bots
 	-- maybe could add a relay module sometime
 end
-local function chat(usr,channel,msg)
-	print("["..tostring(channel).."] <".. tostring(usr.nick) .. ">: "..tostring(msg))
+local function onPM(usr,channel,msg)
 	if channel==user.nick then channel=usr.nick
 		if config.logchannel then
 			ircSendChatQ(config.logchannel, "[PM] "..usr.nick.."!"..usr.username.."@"..usr.host..": "..msg)
 		end 
-	end --if query, respond back to usr
+	end
+end
+pcall(irc.unhook, irc, "OnChat","OnPM")
+irc:hook("OnChat", "OnPM",onPM)
+local function chat(usr, channel, msg)
 	if not usr.nick then return end
 	local s,r = pcall(realchat,usr,channel,msg)
 	if not s and r then
@@ -446,3 +449,12 @@ end
 pcall(irc.unhook, irc, "OnInvite", "invite1")
 irc:hook("OnInvite","invite1", onInvite)
 
+local function onPing(usr, channel, msg)
+if channel ~= user.nick and channel ~= nil and string.find(string.lower(msg), '.*'..string.lower(user.nick)..'.*') ~= nil then
+               if config.logchannel then                          
+                        ircSendChatQ(config.logchannel, "[Ping] "..usr.nick.."!"..usr.username.."@"..usr.host..": ("..channel..") "..msg)
+                end
+        end
+end
+pcall(irc.unhook, irc, "OnPing", "onChat")
+irc:hook("OnChat","OnPing",onPing)
