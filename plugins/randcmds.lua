@@ -18,6 +18,12 @@ local function burn(usr, chan, msg)
     ircSendChatQ(chan, "\001ACTION watches the world burn\001",true)
 end
 add_cmd(burn, "burn", 0, nil, false)
+local function comics(usr, chan, msg, args)
+    if args[1] and tonumber(args[1]) then return "https://hellomouse.net/comics?id="..args[1] end
+    return "https://hellomouse.net/comics"
+end
+add_cmd(comics, "comics", 0, nil, false)
+add_cmd(comics, "comic",  0, nil, false)
 local function cookie(usr,chan,msg) 
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
