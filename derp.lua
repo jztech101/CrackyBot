@@ -1,4 +1,39 @@
 --Metatable changes to be awesome
+attacks={"drops a cool black planet on $",
+"eats $ for breakfast.",
+"tackles $ and annihilates $ completely, ending $'s thoughts of revenge. ",
+"smashes $'s face through 4 layers of glass.",
+"whacks $ into space.",
+"breathes out a stream of white hot fire, melting $'s face instantly.",
+"takes out a sharpness V sword and slices $ in half.",
+"detonates an antimatter missile onto $.",
+"fires the B.E. Space Laser, shooting a beam of death towards $.",
+"takes the brush and drops some SING near where $ was standing.",
+"borrows a banhammer and smashes it on $'s skull.",
+"beats $ in a game of chess, causing $ to die of shame.",
+"forces $ to listen to Justin Bieber, causing their eardrums to explode.",
+"shoves $ into a vat of sodium hydroxide.",
+"types /kill @p[Name=$]",
+"types !set type $ none in the console.",
+"straps $ onto a rocket heading towards the sun.",
+"pours a bucket of lava on $'s head",
+"drops a wrecking ball on $",
+"sends $ to the gulags",
+"forces $ to write Javscript code",
+"sends $ to Uranus and leaves them there",
+"puts $ in an American public school",
+"crosses the hammer and sickle while facing $",
+"bandwagons $",
+"gives $ a totem of death",
+"causes the earth to open up under $",
+"tosses $ off the Burj Khalifa",
+"tosses $ into a volcano for SCIENCE",
+"makes North Korea declare war on $",
+"exiles $ to St. Helena",
+"sends $ back 1000 years"
+}
+
+
 local function _index(f,a) return function(...) return f(a,...) end end
 local function _sub() return function(a,b)
 	if type(a)=='function' and type(b)=='table' then
