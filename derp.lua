@@ -1,6 +1,7 @@
 --Metatable changes to be awesome
 
 --credits to ATMunn & Bowserinator on the attacks (https://github.com/ATMunn & https://github.com/Bowserinator)
+--consent https://gist.github.com/jztech101/2db35d839841d864377e04da66822339
 attacks={"drops a cool black planet on $",
 "eats $ for breakfast.",
 "tackles $ and annihilates $ completely, ending $'s thoughts of revenge. ",
