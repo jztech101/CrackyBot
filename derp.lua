@@ -1,4 +1,6 @@
 --Metatable changes to be awesome
+
+--credits to ATMunn & Bowserinator on the attacks (https://github.com/ATMunn & https://github.com/Bowserinator)
 attacks={"drops a cool black planet on $",
 "eats $ for breakfast.",
 "tackles $ and annihilates $ completely, ending $'s thoughts of revenge. ",
