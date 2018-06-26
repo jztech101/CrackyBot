@@ -18,6 +18,16 @@ local function burn(usr, chan, msg)
     ircSendChatQ(chan, "\001ACTION watches the world burn\001",true)
 end
 add_cmd(burn, "burn", 0, nil, false)
+local function attack(usr, chan, msg)
+    math.randomseed(os.clock()*100000000000) 
+    math.random(); math.random(); math.random() 
+    number = math.random(#attacks) 
+    nick = usr.nick 
+    if not (msg == "" or msg == nil) then nick = msg end 
+    irc.SendChatQ(chan, "\001ACTION "..string.sub(attacks[number],"$",nick).."\001",true)
+end
+add_cmd(attack, "attack", 0, nil, false)	
+
 local function cookie(usr,chan,msg) 
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
