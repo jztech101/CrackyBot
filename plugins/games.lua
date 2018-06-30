@@ -1310,29 +1310,6 @@ local function store(usr,chan,msg,args)
 			return "You don't have that!"
 		end
 	end
-	if command=="sellall" then
-		local sellList, rstring, totalSold = {}, "", 0
-		if args[2] then
-			if gameUsers[usr.host].inventory[args[2]] then
-				table.insert(sellList, gameUsers[usr.host].inventory[args[2]])
-			else
-				return "You don't have that!"
-			end
-		else
-			--Only sellall INSTOCK positive items
-			for k,v in pairs(gameUsers[usr.host].inventory) do
-				if v.instock and v.cost >= 0 then table.insert(sellList,v) end
-			end
-		end
-		if #sellList == 0 then return "You don't have any items to 'sellall'" end
-		for i,v in ipairs(sellList) do
-			changeCash(usr,v.cost*v.amount)
-			rstring = rstring..nicenum(v.amount).." "..v.name..", "
-			totalSold = totalSold + (v.cost*v.amount)
-			remInv(usr,v.name,v.amount)
-		end
-		return "Sold "..rstring.."for $"..totalSold
-	end
 end
 add_cmd(store,"store",0,"Browse the store, '/store list/info/buy/sell'",true,{"shop"})
 
@@ -1347,15 +1324,6 @@ table.insert(args, 1, "sell")
 return store(usr, chan, msg, args) 
 end
 add_cmd(sell, "sell", 0, "sell", true)
-
-local function sellall(usr, chan, msg,args)
-table.insert(args, 1, "sellall")
-return store(usr, chan, msg, args)
-end
-add_cmd(sellall, "sellall", 0, "sellall", true)
-
-
-
 
 local charLookAlike={["0"]="O",["1"]="I",["2"]="Z",["3"]="8",["4"]="H",["5"]="S",["6"]="G",["7"]="Z",["8"]="3",["9"]="6",
 ["b"]="d",["c"]="s",["d"]="b",["e"]="c",["f"]="t",["g"]="q",["h"]="n",["i"]="j",["j"]="i",
