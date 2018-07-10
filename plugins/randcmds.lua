@@ -164,6 +164,12 @@ local function github(usr, chan, msg)
 end
 add_cmd(github, "github", 0, false, false)
 
+local function sucks(usr, chan, msg)
+        nick = usr.nick if not (msg == "" or msg == nil) then nick = msg end
+        return "Oh...! "..nick.." sucks! You want proof? http://lmgtfy.com/?q=why+does+"..nick.."+suck - the best proof ever!"
+end
+add_cmd(sucks, "sucks",0, false, false)
+
 local function roll(usr, chan, msg)
        math.randomseed(os.clock()*100000000000)
        math.random(); math.random(); math.random()
