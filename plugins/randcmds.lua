@@ -19,6 +19,10 @@ local function burn(usr, chan, msg)
 end
 add_cmd(burn, "burn", 0, nil, false)
 
+local function upgrade(usr, chan, msg)
+    return "Need a spec upgrade? We have just the thing for you! We can give you more RAM at downloadmoreram.com, more CPU cores at downloadmorecores.com and finally more GHz at downloadmoreghz.com! All for FREE! What are you waiting for?! Upgrade your computer NOW!"
+end
+add_cmd(upgrade, "upgrade", 0, nil, false)
 local function attack(usr, chan, msg)
     math.randomseed(os.clock()*100000000000) 
     math.random(); math.random(); math.random() 
