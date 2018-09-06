@@ -35,7 +35,7 @@ add_cmd(attack, "attack", 0, nil, false)
 
 local function like(usr, chan, msg)
     if not (msg == "" or msg == nil) then 
-        return "Oh you like " + msg + "? Then I don\'t like it, because you like it. Illogical and Pointless? Well, so is your rant about how your stuff is better than mine" 
+        return "Oh you like " + msg + "? Then I don\'t like it, because you like it. Illogical and Pointless? Well, so is your rant about how your stuff is better than mine and how I should switch just because you (and your links) say so." 
     end
 end
 add_cmd(like, "like", 0, nil, false)
