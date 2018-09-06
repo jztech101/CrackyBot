@@ -33,6 +33,12 @@ local function attack(usr, chan, msg)
 end
 add_cmd(attack, "attack", 0, nil, false)	
 
+local function like(usr, chan, msg)
+    if not (msg == "" or msg == nil) then 
+        return "Oh you like " + msg + "? Then I don\'t like it, because you like it. Illogical and Pointless? Well, so is your rant about how your stuff is better than mine" 
+    end
+end
+add_cmd(like, "like", 0, nil, false)
 local function cookie(usr,chan,msg) 
     nick = usr.nick
     if not (msg == "" or msg == nil) then nick = msg end
