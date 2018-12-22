@@ -10,7 +10,7 @@ end
 add_cmd(pong,"pong",0,"ping",true)
 
 local function version(usr,chan,msg)
-	return "Crackybot"
+	return "CrackyBot on " + _VERSION
 end
 add_cmd(version,"version",0,"version",true)
 
